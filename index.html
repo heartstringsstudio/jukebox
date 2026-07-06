@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Jukebox — Heartstrings Studio | Custom Songs, Ready to Play</title>
+<meta name="description" content="Browse and play every song Heartstrings Studio has produced — memorials, celebrations of life, weddings, milestones, tributes, and holidays. Your story. Your song.">
+<link rel="canonical" href="https://heartstringsstudio.github.io/jukebox/">
+<link rel="icon" type="image/png" href="favicon.png">
+<meta property="og:title" content="Studio Jukebox — Heartstrings Studio">
+<meta property="og:description" content="Every song we've made, ready to play. Hear the range in under a minute.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://heartstringsstudio.github.io/jukebox/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap">
+<style>
+  :root{
+    --cream:        #faf6ee;
+    --cream-card:   #fffdf8;
+    --cream-deep:   #f1ead9;
+    --walnut:       #3b2d21;
+    --walnut-soft:  #61503f;
+    --walnut-faint: #8a7a67;
+    --gold:         #b8956a;
+    --gold-deep:    #96733f;
+    --gold-pale:    #f3e9d7;
+    --green:        #6d7d5f;
+    --green-deep:   #4f5d45;
+    --green-pale:   #e8ecdf;
+    --sage-muted:   #eceee7;
+    --sage-text:    #5d6657;
+    --line:         #e6dcc8;
+    --shadow:       0 1px 2px rgba(59,45,33,.06), 0 6px 18px rgba(59,45,33,.07);
+    --shadow-lift:  0 2px 4px rgba(59,45,33,.08), 0 14px 30px rgba(59,45,33,.12);
+    --serif: "Playfair Display", "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --serif-alt: "Cormorant Garamond", Georgia, serif;
+    --sans: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--cream);
+    color:var(--walnut);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:var(--gold-deep); }
+  a:focus-visible, button:focus-visible{
+    outline:3px solid var(--gold-deep);
+    outline-offset:2px;
+    border-radius:4px;
+  }
+
+  /* ---------- Header ---------- */
+  .site-header{
+    text-align:center;
+    padding:56px 20px 36px;
+    border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(ellipse at 50% -20%, rgba(184,149,106,.14), transparent 60%),
+      var(--cream);
+  }
+  .wordmark{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(2rem, 5.5vw, 3.1rem);
+    letter-spacing:.02em;
+    color:var(--walnut);
+  }
+  .wordmark a{ color:inherit; text-decoration:none; }
+  .tagline{
+    font-family:var(--serif-alt);
+    font-style:italic;
+    font-size:clamp(1.1rem, 3vw, 1.35rem);
+    color:var(--walnut-soft);
+    margin-top:6px;
+  }
+  .header-rule{
+    width:64px; height:2px; border:0;
+    background:var(--gold);
+    margin:22px auto;
+  }
+  .jukebox-title{
+    font-family:var(--sans);
+    font-weight:700;
+    font-size:.8rem;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--gold-deep);
+  }
+  .jukebox-sub{
+    max-width:520px;
+    margin:10px auto 26px;
+    color:var(--walnut-soft);
+    font-size:1rem;
+  }
+  .cta-btn{
+    display:inline-block;
+    background:var(--walnut);
+    color:var(--cream);
+    text-decoration:none;
+    font-family:var(--sans);
+    font-weight:700;
+    font-size:1rem;
+    letter-spacing:.04em;
+    padding:14px 34px;
+    border-radius:999px;
+    box-shadow:var(--shadow);
+    transition:background .25s ease, transform .25s ease, box-shadow .25s ease;
+  }
+  .cta-btn:hover, .cta-btn:focus-visible{
+    background:var(--gold-deep);
+    transform:translateY(-1px);
+    box-shadow:var(--shadow-lift);
+  }
+
+  /* ---------- Filter bar ---------- */
+  .filter-wrap{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:rgba(250,246,238,.96);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    padding:14px 16px 12px;
+  }
+  .filter-bar{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:8px;
+    max-width:900px;
+    margin:0 auto;
+  }
+  .pill{
+    font-family:var(--sans);
+    font-size:.88rem;
+    font-weight:400;
+    color:var(--walnut-soft);
+    background:var(--cream-card);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:8px 16px;
+    cursor:pointer;
+    transition:background .2s ease, color .2s ease, border-color .2s ease;
+    white-space:nowrap;
+  }
+  .pill:hover{ border-color:var(--gold); color:var(--walnut); }
+  .pill[aria-pressed="true"]{
+    background:var(--walnut);
+    border-color:var(--walnut);
+    color:var(--cream);
+    font-weight:700;
+  }
+  .pill .count{
+    font-size:.78rem;
+    opacity:.75;
+    margin-left:4px;
+  }
+  .pill .lbl-short{ display:none; }
+  @media (max-width:480px){
+    .pill{ padding:7px 13px; font-size:.84rem; }
+    .pill .lbl-full{ display:none; }
+    .pill .lbl-short{ display:inline; }
+  }
+  .just-because{
+    text-align:center;
+    font-family:var(--serif-alt);
+    font-style:italic;
+    font-size:1.05rem;
+    color:var(--walnut-soft);
+    padding:18px 20px 0;
+  }
+
+  /* ---------- Grid ---------- */
+  .grid{
+    list-style:none;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:26px;
+    max-width:1120px;
+    margin:0 auto;
+    padding:30px 24px 60px;
+  }
+  @media (max-width:900px){ .grid{ grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:620px){ .grid{ grid-template-columns:1fr; padding:24px 16px 48px; gap:18px; } }
+
+  .status-msg{
+    grid-column:1 / -1;
+    text-align:center;
+    color:var(--walnut-soft);
+    font-family:var(--serif-alt);
+    font-style:italic;
+    font-size:1.1rem;
+    padding:40px 20px;
+  }
+
+  /* ---------- Cards ---------- */
+  .card{
+    position:relative;
+    background:var(--cream-card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    box-shadow:var(--shadow);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    transition:transform .28s ease, box-shadow .28s ease;
+  }
+  .card:hover{ transform:translateY(-3px); box-shadow:var(--shadow-lift); }
+  .card.occ-memorial{
+    background:#fbf8f3;
+    border-color:#e9e2d6;
+  }
+  .card-face{
+    display:flex;
+    flex-direction:column;
+    flex:1;
+    padding:22px 22px 18px;
+  }
+  .card-meta{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:12px;
+  }
+  .badge{
+    font-size:.72rem;
+    font-weight:700;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    padding:4px 11px;
+    border-radius:999px;
+    background:var(--green-pale);
+    color:var(--green-deep);
+  }
+  .occ-memorial .badge{
+    background:var(--sage-muted);
+    color:var(--sage-text);
+  }
+  .occ-celebration-of-life .badge{
+    background:#eef0dc;
+    color:#6b7440;
+  }
+  .occ-wedding .badge{ background:var(--gold-pale); color:var(--gold-deep); }
+  .occ-holiday .badge{ background:#f3e6d4; color:#8f6b33; }
+  .year{
+    font-size:.82rem;
+    color:var(--walnut-faint);
+    margin-left:auto;
+  }
+  .card-title{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:1.28rem;
+    line-height:1.3;
+    color:var(--walnut);
+    margin-bottom:8px;
+  }
+  .blurb{
+    font-size:.94rem;
+    color:var(--walnut-soft);
+    flex:1;
+    margin-bottom:18px;
+  }
+  .card-actions{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .play-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    background:var(--gold);
+    color:#fff;
+    border:0;
+    border-radius:999px;
+    font-family:var(--sans);
+    font-weight:700;
+    font-size:.92rem;
+    letter-spacing:.03em;
+    padding:10px 22px 10px 16px;
+    cursor:pointer;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .play-btn:hover, .play-btn:focus-visible{ background:var(--gold-deep); transform:translateY(-1px); }
+  .play-btn svg{ display:block; }
+  .keepsake-link{
+    font-size:.88rem;
+    color:var(--gold-deep);
+    text-decoration:none;
+    border-bottom:1px solid rgba(150,115,63,.35);
+    padding-bottom:1px;
+    transition:border-color .2s ease;
+  }
+  .keepsake-link:hover, .keepsake-link:focus-visible{ border-color:var(--gold-deep); }
+
+  .ribbon{
+    position:absolute;
+    top:14px;
+    right:-1px;
+    background:var(--gold-pale);
+    color:var(--gold-deep);
+    border:1px solid #e5d3b3;
+    border-right:0;
+    font-size:.7rem;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:4px 12px 4px 10px;
+    border-radius:999px 0 0 999px;
+  }
+  .card.featured .card-face{ padding-top:46px; }
+
+  /* ---------- Player face ---------- */
+  .player-face{
+    display:flex;
+    flex-direction:column;
+    flex:1;
+  }
+  .player-frame{
+    position:relative;
+    width:100%;
+    aspect-ratio:16 / 9;
+    background:#181310;
+  }
+  .player-frame iframe{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    border:0;
+  }
+  .player-bar{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+    padding:12px 16px;
+  }
+  .player-title{
+    font-family:var(--serif);
+    font-size:.98rem;
+    font-weight:600;
+    flex:1;
+    min-width:120px;
+  }
+  .player-bar a{
+    font-size:.82rem;
+    white-space:nowrap;
+  }
+  .stop-btn{
+    background:transparent;
+    border:1px solid var(--line);
+    border-radius:999px;
+    color:var(--walnut-soft);
+    font-family:var(--sans);
+    font-size:.82rem;
+    font-weight:700;
+    padding:6px 14px;
+    cursor:pointer;
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .stop-btn:hover, .stop-btn:focus-visible{ border-color:var(--walnut-soft); color:var(--walnut); }
+
+  .fallback-panel{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    text-align:center;
+    padding:36px 24px;
+    flex:1;
+  }
+  .fallback-panel p{
+    font-family:var(--serif-alt);
+    font-style:italic;
+    color:var(--walnut-soft);
+  }
+  .fallback-panel a{
+    font-weight:700;
+    font-size:.92rem;
+  }
+
+  /* ---------- Footer ---------- */
+  .site-footer{
+    border-top:1px solid var(--line);
+    background:var(--cream-deep);
+    text-align:center;
+    padding:44px 20px 52px;
+  }
+  .footer-name{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:1.25rem;
+    margin-bottom:6px;
+  }
+  .footer-tag{
+    font-family:var(--serif-alt);
+    font-style:italic;
+    color:var(--walnut-soft);
+    margin-bottom:18px;
+  }
+  .footer-links{
+    display:flex;
+    justify-content:center;
+    gap:10px 26px;
+    flex-wrap:wrap;
+    font-size:.95rem;
+  }
+  .footer-links a{ color:var(--gold-deep); text-decoration:none; border-bottom:1px solid rgba(150,115,63,.35); padding-bottom:1px; }
+  .footer-links a:hover, .footer-links a:focus-visible{ border-color:var(--gold-deep); }
+
+  /* ---------- Motion & a11y ---------- */
+  .visually-hidden{
+    position:absolute; width:1px; height:1px;
+    margin:-1px; padding:0; overflow:hidden;
+    clip:rect(0 0 0 0); white-space:nowrap; border:0;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *, *::before, *::after{ transition:none !important; animation:none !important; }
+    .card:hover{ transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1 class="wordmark">Heartstrings&nbsp;Studio</h1>
+  <p class="tagline">Your story. Your song.</p>
+  <hr class="header-rule" aria-hidden="true">
+  <p class="jukebox-title">The Studio Jukebox</p>
+  <p class="jukebox-sub">Every song we've made, ready to play. Press play on any card and hear a real story, set to music.</p>
+  <a class="cta-btn" href="https://tinyurl.com/heartstringswv">Commission Your Song</a>
+</header>
+
+<div class="filter-wrap">
+  <nav class="filter-bar" id="filterBar" aria-label="Filter songs by occasion"></nav>
+</div>
+
+<p class="just-because">No occasion required — some of the best songs are just because.</p>
+
+<main>
+  <h2 class="visually-hidden">Songs</h2>
+  <ul class="grid" id="grid" aria-live="polite">
+    <li class="status-msg" id="loadingMsg">Warming up the jukebox&hellip;</li>
+  </ul>
+</main>
+
+<footer class="site-footer">
+  <p class="footer-name">Heartstrings Studio</p>
+  <p class="footer-tag">Custom songs, written with heart in West Virginia.</p>
+  <div class="footer-links">
+    <a href="mailto:heartstringsstudiowv@gmail.com">heartstringsstudiowv@gmail.com</a>
+    <a href="https://heartstringsstudio.github.io/heartstringsstudio/">Visit the main site</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var OCCASIONS = [
+    { key:"all",                 label:"All" },
+    { key:"memorial",            label:"Memorials" },
+    { key:"celebration-of-life", label:"Celebrations of Life", short:"Life Celebrations" },
+    { key:"wedding",             label:"Weddings" },
+    { key:"milestone",           label:"Milestones" },
+    { key:"tribute",             label:"Tributes" },
+    { key:"holiday",             label:"Holidays" }
+  ];
+  var BADGE_LABELS = {
+    "memorial":"Memorial",
+    "celebration-of-life":"Celebration of Life",
+    "wedding":"Wedding",
+    "milestone":"Milestone",
+    "tribute":"Tribute",
+    "holiday":"Holiday"
+  };
+
+  var grid = document.getElementById("grid");
+  var filterBar = document.getElementById("filterBar");
+  var songs = [];
+  var activeFilter = "all";
+  var current = null; // { card: <li>, song: {...} }
+
+  fetch("songs.json", { cache: "no-cache" })
+    .then(function(r){ if(!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+    .then(function(data){
+      songs = data.slice().sort(function(a, b){
+        return (b.featured === true) - (a.featured === true);
+      });
+      buildFilters();
+      renderGrid();
+    })
+    .catch(function(){
+      grid.innerHTML = "";
+      var li = document.createElement("li");
+      li.className = "status-msg";
+      li.textContent = "We couldn't load the jukebox just now. Please refresh, or write to us at heartstringsstudiowv@gmail.com and we'll send you samples directly.";
+      grid.appendChild(li);
+    });
+
+  function countFor(key){
+    if(key === "all") return songs.length;
+    return songs.filter(function(s){ return s.occasion === key; }).length;
+  }
+
+  function buildFilters(){
+    OCCASIONS.forEach(function(o){
+      var n = countFor(o.key);
+      if(o.key !== "all" && n === 0) return;
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "pill";
+      btn.dataset.filter = o.key;
+      btn.setAttribute("aria-pressed", o.key === activeFilter ? "true" : "false");
+
+      if(o.short){
+        var full = document.createElement("span");
+        full.className = "lbl-full";
+        full.textContent = o.label;
+        var short = document.createElement("span");
+        short.className = "lbl-short";
+        short.textContent = o.short;
+        btn.appendChild(full);
+        btn.appendChild(short);
+      } else {
+        btn.appendChild(document.createTextNode(o.label));
+      }
+      var count = document.createElement("span");
+      count.className = "count";
+      count.textContent = "(" + n + ")";
+      btn.appendChild(count);
+
+      btn.addEventListener("click", function(){
+        activeFilter = o.key;
+        filterBar.querySelectorAll(".pill").forEach(function(p){
+          p.setAttribute("aria-pressed", p.dataset.filter === activeFilter ? "true" : "false");
+        });
+        renderGrid();
+      });
+      filterBar.appendChild(btn);
+    });
+  }
+
+  function renderGrid(){
+    stopCurrent();
+    grid.innerHTML = "";
+    var shown = songs.filter(function(s){
+      return activeFilter === "all" || s.occasion === activeFilter;
+    });
+    if(shown.length === 0){
+      var li = document.createElement("li");
+      li.className = "status-msg";
+      li.textContent = "No songs in this category yet — but yours could be the first.";
+      grid.appendChild(li);
+      return;
+    }
+    shown.forEach(function(song){
+      grid.appendChild(buildCard(song));
+    });
+  }
+
+  function buildCard(song){
+    var li = document.createElement("li");
+    li.className = "card occ-" + song.occasion + (song.featured ? " featured" : "");
+
+    if(song.featured){
+      var ribbon = document.createElement("span");
+      ribbon.className = "ribbon";
+      ribbon.textContent = "★ Featured";
+      li.appendChild(ribbon);
+    }
+    li.appendChild(buildFace(song));
+    return li;
+  }
+
+  function buildFace(song){
+    var face = document.createElement("div");
+    face.className = "card-face";
+
+    var meta = document.createElement("div");
+    meta.className = "card-meta";
+    var badge = document.createElement("span");
+    badge.className = "badge";
+    badge.textContent = BADGE_LABELS[song.occasion] || song.occasion;
+    var year = document.createElement("span");
+    year.className = "year";
+    year.textContent = song.year;
+    meta.appendChild(badge);
+    meta.appendChild(year);
+    face.appendChild(meta);
+
+    var title = document.createElement("h3");
+    title.className = "card-title";
+    title.textContent = song.title;
+    face.appendChild(title);
+
+    var blurb = document.createElement("p");
+    blurb.className = "blurb";
+    blurb.textContent = song.blurb;
+    face.appendChild(blurb);
+
+    var actions = document.createElement("div");
+    actions.className = "card-actions";
+
+    var play = document.createElement("button");
+    play.type = "button";
+    play.className = "play-btn";
+    play.setAttribute("aria-label", "Play “" + song.title + "”");
+    play.innerHTML = '<svg width="14" height="16" viewBox="0 0 14 16" aria-hidden="true" fill="currentColor"><path d="M1 1.6c0-1.2 1.3-1.9 2.3-1.3l10 6.4c.9.6.9 2 0 2.6l-10 6.4c-1 .6-2.3-.1-2.3-1.3V1.6z"/></svg>';
+    play.appendChild(document.createTextNode("Play"));
+    play.addEventListener("click", function(){
+      startPlayback(play.closest(".card"), song);
+    });
+    actions.appendChild(play);
+
+    if(song.keepsakeUrl){
+      var keep = document.createElement("a");
+      keep.className = "keepsake-link";
+      keep.href = song.keepsakeUrl;
+      keep.textContent = "View Keepsake Page →";
+      keep.setAttribute("aria-label", "View keepsake page for “" + song.title + "”");
+      actions.appendChild(keep);
+    }
+    face.appendChild(actions);
+    return face;
+  }
+
+  function startPlayback(card, song){
+    if(current && current.card === card) return;
+    stopCurrent();
+
+    var faceEl = card.querySelector(".card-face");
+    if(faceEl) faceEl.remove();
+
+    var player = document.createElement("div");
+    player.className = "player-face";
+
+    if(!navigator.onLine){
+      player.appendChild(buildFallback(song));
+    } else {
+      var frame = document.createElement("div");
+      frame.className = "player-frame";
+      var iframe = document.createElement("iframe");
+      iframe.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(song.youtubeId) + "?autoplay=1&rel=0";
+      iframe.title = "Now playing: " + song.title;
+      iframe.allow = "autoplay; encrypted-media; picture-in-picture";
+      iframe.allowFullscreen = true;
+      iframe.loading = "eager";
+      var loaded = false;
+      iframe.addEventListener("load", function(){ loaded = true; });
+      setTimeout(function(){
+        if(!loaded && current && current.card === card){
+          player.innerHTML = "";
+          player.appendChild(buildFallback(song));
+          player.appendChild(buildPlayerBar(card, song, true));
+        }
+      }, 7000);
+      frame.appendChild(iframe);
+      player.appendChild(frame);
+      player.appendChild(buildPlayerBar(card, song, false));
+    }
+
+    card.appendChild(player);
+    current = { card: card, song: song };
+
+    var stopBtn = player.querySelector(".stop-btn");
+    if(stopBtn) stopBtn.focus();
+  }
+
+  function buildPlayerBar(card, song, minimal){
+    var bar = document.createElement("div");
+    bar.className = "player-bar";
+
+    if(!minimal){
+      var t = document.createElement("span");
+      t.className = "player-title";
+      t.textContent = song.title;
+      bar.appendChild(t);
+      if(song.keepsakeUrl){
+        var keep = document.createElement("a");
+        keep.className = "keepsake-link";
+        keep.href = song.keepsakeUrl;
+        keep.textContent = "Keepsake Page →";
+        bar.appendChild(keep);
+      }
+    }
+
+    var stop = document.createElement("button");
+    stop.type = "button";
+    stop.className = "stop-btn";
+    stop.textContent = "✕ Close";
+    stop.setAttribute("aria-label", "Stop playing “" + song.title + "”");
+    stop.addEventListener("click", function(){ stopCurrent(true); });
+    bar.appendChild(stop);
+    return bar;
+  }
+
+  function buildFallback(song){
+    var panel = document.createElement("div");
+    panel.className = "fallback-panel";
+    var msg = document.createElement("p");
+    msg.textContent = "The player is having trouble loading right now.";
+    panel.appendChild(msg);
+    if(song.keepsakeUrl){
+      var keep = document.createElement("a");
+      keep.href = song.keepsakeUrl;
+      keep.textContent = "Visit the keepsake page for this song →";
+      panel.appendChild(keep);
+    }
+    var yt = document.createElement("a");
+    yt.href = "https://youtu.be/" + encodeURIComponent(song.youtubeId);
+    yt.textContent = "Open on YouTube →";
+    panel.appendChild(yt);
+    return panel;
+  }
+
+  function stopCurrent(refocus){
+    if(!current) return;
+    var card = current.card;
+    var song = current.song;
+    current = null;
+    var player = card.querySelector(".player-face");
+    if(player) player.remove();
+    card.appendChild(buildFace(song));
+    if(refocus){
+      var btn = card.querySelector(".play-btn");
+      if(btn) btn.focus();
+    }
+  }
+
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape") stopCurrent(true);
+  });
+})();
+</script>
+
+</body>
+</html>
