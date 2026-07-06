@@ -5,6 +5,7 @@ Pure HTML/CSS/vanilla JS — no build step, no frameworks. Songs load from
 `songs.json` in this same folder.
 
 **Live site:** https://heartstringsstudio.github.io/jukebox/
+**Share link:** https://tinyurl.com/hsjukebox (use this one on Facebook and in messages)
 
 ## How to add a song
 
