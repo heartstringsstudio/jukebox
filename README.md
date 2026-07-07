@@ -1,6 +1,6 @@
 # Studio Jukebox
 
-A single-page, browsable wall of every song Heartstrings Studio has produced.
+A single-page, browsable sampler of songs Heartstrings Studio has produced.
 Pure HTML/CSS/vanilla JS — no build step, no frameworks. Songs load from
 `songs.json` in this same folder.
 
@@ -20,7 +20,6 @@ Pure HTML/CSS/vanilla JS — no build step, no frameworks. Songs load from
      "year": 2026,
      "blurb": "One warm sentence about the story behind the song.",
      "youtubeId": "dQw4w9WgXcQ",
-     "keepsakeUrl": "",
      "featured": false
    }
    ```
@@ -29,7 +28,6 @@ Pure HTML/CSS/vanilla JS — no build step, no frameworks. Songs load from
      `wedding`, `milestone`, `tribute`, `holiday`
    - **youtubeId** is just the ID, not the full link. For
      `https://youtu.be/qdAYOA_1ok0` the ID is `qdAYOA_1ok0`.
-   - **keepsakeUrl** is optional — leave it as `""` if there's no keepsake page.
    - **featured** — set `true` to pin the song to the top with a ★ ribbon.
      Keep it to two or three songs so "featured" still means something.
 
