@@ -290,16 +290,6 @@
   }
   .play-btn:hover, .play-btn:focus-visible{ background:var(--gold-deep); transform:translateY(-1px); }
   .play-btn svg{ display:block; }
-  .keepsake-link{
-    font-size:.88rem;
-    color:var(--gold-deep);
-    text-decoration:none;
-    border-bottom:1px solid rgba(150,115,63,.35);
-    padding-bottom:1px;
-    transition:border-color .2s ease;
-  }
-  .keepsake-link:hover, .keepsake-link:focus-visible{ border-color:var(--gold-deep); }
-
   .ribbon{
     position:absolute;
     top:14px;
@@ -621,14 +611,6 @@
     });
     actions.appendChild(play);
 
-    if(song.keepsakeUrl){
-      var keep = document.createElement("a");
-      keep.className = "keepsake-link";
-      keep.href = song.keepsakeUrl;
-      keep.textContent = "View Keepsake Page →";
-      keep.setAttribute("aria-label", "View keepsake page for “" + song.title + "”");
-      actions.appendChild(keep);
-    }
     face.appendChild(actions);
     return face;
   }
@@ -684,13 +666,6 @@
       t.className = "player-title";
       t.textContent = song.title;
       bar.appendChild(t);
-      if(song.keepsakeUrl){
-        var keep = document.createElement("a");
-        keep.className = "keepsake-link";
-        keep.href = song.keepsakeUrl;
-        keep.textContent = "Keepsake Page →";
-        bar.appendChild(keep);
-      }
     }
 
     var stop = document.createElement("button");
@@ -709,12 +684,6 @@
     var msg = document.createElement("p");
     msg.textContent = "The player is having trouble loading right now.";
     panel.appendChild(msg);
-    if(song.keepsakeUrl){
-      var keep = document.createElement("a");
-      keep.href = song.keepsakeUrl;
-      keep.textContent = "Visit the keepsake page for this song →";
-      panel.appendChild(keep);
-    }
     var yt = document.createElement("a");
     yt.href = "https://youtu.be/" + encodeURIComponent(song.youtubeId);
     yt.textContent = "Open on YouTube →";
