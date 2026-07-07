@@ -316,9 +316,9 @@
   /* ---------- Cards ---------- */
   .card{
     position:relative;
-    background:var(--charcoal-soft);
-    border:1px solid rgba(255,255,255,.07);
-    box-shadow:0 2px 12px rgba(0,0,0,.25);
+    background:var(--cream);
+    border:1px solid var(--divider);
+    box-shadow:0 2px 12px rgba(0,0,0,.35);
     display:flex;
     flex-direction:column;
     overflow:hidden;
@@ -327,7 +327,7 @@
   .card:hover{
     transform:translateY(-4px);
     box-shadow:0 24px 60px rgba(0,0,0,.45), 0 6px 18px rgba(0,0,0,.3);
-    border-color:rgba(212,99,122,.42);
+    border-color:rgba(192,69,90,.35);
   }
   .card-face{
     display:flex;
@@ -340,11 +340,11 @@
     width:100%;
     aspect-ratio:16 / 9;
     border:0;
-    border-bottom:1px solid rgba(255,255,255,.06);
+    border-bottom:1px solid var(--divider);
     border-radius:0;
     padding:0;
     cursor:pointer;
-    background:#160f11;
+    background:var(--cream-warm);
     overflow:hidden;
   }
   .thumb-btn img{
@@ -392,7 +392,7 @@
     position:absolute;
     top:0; left:24px; right:24px;
     height:1px;
-    background:linear-gradient(90deg, transparent, rgba(212,99,122,.45), transparent);
+    background:linear-gradient(90deg, transparent, var(--rose-pale), transparent);
     transform:scaleX(0);
     transition:transform .6s var(--ease-elegant);
   }
@@ -408,12 +408,12 @@
     font-weight:700;
     letter-spacing:.22em;
     text-transform:uppercase;
-    color:var(--rose-light);
+    color:var(--rose);
   }
   .year{
     font-size:11px;
     letter-spacing:.08em;
-    color:rgba(250,246,242,.55);
+    color:var(--text-muted);
     margin-left:auto;
   }
   .card-title{
@@ -422,12 +422,12 @@
     font-size:1.35rem;
     line-height:1.25;
     letter-spacing:-.005em;
-    color:var(--cream);
+    color:var(--charcoal);
     margin-bottom:8px;
   }
   .blurb{
     font-size:14.5px;
-    color:rgba(250,246,242,.68);
+    color:var(--text-muted);
     line-height:1.72;
     flex:1;
     margin-bottom:20px;
@@ -443,8 +443,8 @@
     align-items:center;
     gap:9px;
     background:transparent;
-    color:#f4e0e4;
-    border:1px solid rgba(212,99,122,.5);
+    color:var(--rose-deep);
+    border:1px solid rgba(192,69,90,.4);
     border-radius:40px;
     font-family:var(--sans);
     font-weight:700;
@@ -529,15 +529,15 @@
     font-family:var(--serif);
     font-size:1.05rem;
     font-weight:600;
-    color:var(--cream);
+    color:var(--charcoal);
     flex:1;
     min-width:120px;
   }
   .stop-btn{
     background:transparent;
-    border:1px solid rgba(255,255,255,.16);
+    border:1px solid var(--divider);
     border-radius:40px;
-    color:rgba(250,246,242,.6);
+    color:var(--text-muted);
     font-family:var(--sans);
     font-size:11px;
     font-weight:700;
@@ -547,7 +547,7 @@
     cursor:pointer;
     transition:border-color .3s var(--ease-out), color .3s var(--ease-out);
   }
-  .stop-btn:hover, .stop-btn:focus-visible{ border-color:var(--rose-light); color:var(--rose-light); }
+  .stop-btn:hover, .stop-btn:focus-visible{ border-color:var(--rose); color:var(--rose-deep); }
 
   .fallback-panel{
     display:flex;
@@ -562,17 +562,17 @@
   .fallback-panel p{
     font-family:var(--serif);
     font-style:italic;
-    color:rgba(250,246,242,.65);
+    color:var(--text-muted);
   }
   .fallback-panel a{
     font-weight:700;
     font-size:.92rem;
-    color:var(--rose-light);
+    color:var(--rose);
     text-decoration:none;
-    border-bottom:1px solid rgba(212,99,122,.4);
+    border-bottom:1px solid rgba(192,69,90,.3);
     transition:border-color .3s var(--ease-out);
   }
-  .fallback-panel a:hover{ border-bottom-color:var(--rose-light); }
+  .fallback-panel a:hover{ border-bottom-color:var(--rose); }
 
   /* ---------- Footer ---------- */
   .site-footer{
