@@ -1,6 +1,6 @@
 # Studio Jukebox
 
-A single-page, browsable wall of every song Heartstrings Studio has produced.
+A single-page, browsable sampler of songs Heartstrings Studio has produced.
 Pure HTML/CSS/vanilla JS — no build step, no frameworks. Songs load from
 `songs.json` in this same folder.
 
