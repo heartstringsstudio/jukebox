@@ -16,12 +16,20 @@
     "featured": true
   },
   {
+    "title": "Here and Now",
+    "occasion": "wedding",
+    "year": 2026,
+    "blurb": "Written for Jeffrey and Nadalee, who found love between the ovens of a small Shinnston pizza shop — because forever begins in the here and now.",
+    "youtubeId": "SuQcWicRpsk",
+    "featured": true
+  },
+  {
     "title": "The Moment I Knew (He Got Down on One Knee)",
     "occasion": "wedding",
     "year": 2026,
     "blurb": "Written in secret for a proposal — she said yes before the last chorus ended.",
     "youtubeId": "wsR1FXXuf3w",
-    "featured": true
+    "featured": false
   },
   {
     "title": "Forever and a Day",
