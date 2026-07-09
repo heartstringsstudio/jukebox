@@ -478,6 +478,39 @@
     box-shadow:0 2px 10px rgba(139,42,58,.35);
   }
 
+  /* ---------- This week's song spotlight ---------- */
+  .spotlight{
+    max-width:640px;
+    margin:0 auto;
+    padding:46px 24px 40px;
+  }
+  .spotlight-head{
+    text-align:center;
+    margin-bottom:24px;
+  }
+  .spotlight-eyebrow{
+    font-family:var(--sans);
+    font-weight:700;
+    font-size:10.5px;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:8px;
+  }
+  .spotlight-title{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(1.6rem, 4.5vw, 2.1rem);
+    line-height:1.2;
+    letter-spacing:.02em;
+    color:var(--cream);
+  }
+  .spotlight .card{
+    border-color:rgba(212,99,122,.4);
+    box-shadow:0 24px 60px rgba(0,0,0,.5), var(--shadow-rose);
+  }
+  .spotlight .ribbon{ background:var(--rose-deep); }
+
   /* ---------- Player face ---------- */
   .player-face{
     display:flex;
@@ -677,6 +710,14 @@
   <a class="btn-ornate" href="https://tinyurl.com/heartstringswv"><span class="btn-sweep" aria-hidden="true"></span><span>Commission Your Song</span></a>
 </header>
 
+<section class="spotlight" id="this-week" aria-labelledby="spotlightTitle" hidden>
+  <div class="spotlight-head">
+    <p class="spotlight-eyebrow">Just Released</p>
+    <h2 class="spotlight-title" id="spotlightTitle">This Week&rsquo;s Song</h2>
+  </div>
+  <div class="spotlight-card-wrap" id="spotlightWrap"></div>
+</section>
+
 <div class="filter-wrap">
   <nav class="filter-bar" id="filterBar" aria-label="Filter songs by occasion"></nav>
 </div>
@@ -747,6 +788,7 @@
       songs = data.slice().sort(function(a, b){
         return (b.featured === true) - (a.featured === true);
       });
+      renderSpotlight();
       buildFilters();
       renderGrid();
     })
@@ -757,6 +799,22 @@
       li.textContent = "We couldn't load the jukebox just now. Please refresh, or write to us at heartstringsstudiowv@gmail.com and we'll send you samples directly.";
       grid.appendChild(li);
     });
+
+  function renderSpotlight(){
+    var song = songs.filter(function(s){ return s.spotlight === true; })[0];
+    if(!song) return;
+
+    var card = document.createElement("div");
+    card.className = "card occ-" + song.occasion;
+    var ribbon = document.createElement("span");
+    ribbon.className = "ribbon";
+    ribbon.textContent = "♪ New This Week";
+    card.appendChild(ribbon);
+    card.appendChild(buildFace(song));
+
+    document.getElementById("spotlightWrap").appendChild(card);
+    document.getElementById("this-week").hidden = false;
+  }
 
   function countFor(key){
     if(key === "all") return songs.length;
