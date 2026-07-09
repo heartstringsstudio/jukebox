@@ -34,6 +34,22 @@ Pure HTML/CSS/vanilla JS — no build step, no frameworks. Songs load from
 3. Commit the change. Done — the site updates itself within a minute or two.
    No other file needs to change.
 
+## This Week's Song (the weekly spotlight)
+
+The "Just Released — This Week's Song" section at the top of the page shows
+whichever song has `"spotlight": true` in `songs.json`. This is the song your
+Facebook posts point to.
+
+To change it each week:
+
+1. Add the new song as usual (see above), and give it `"spotlight": true`.
+2. Remove the `"spotlight": true` line from last week's song (or set it to
+   `false`).
+
+Exactly one song should have `"spotlight": true` at a time — if none does,
+the section simply hides itself. The spotlight song also appears in its
+regular category below, so nothing else needs to change.
+
 **Tip:** if the page ever shows "We couldn't load the jukebox," the last edit
 probably broke the JSON (usually a missing or extra comma). Paste the file into
 https://jsonlint.com to find the exact spot.
