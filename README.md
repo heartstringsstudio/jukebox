@@ -50,6 +50,29 @@ Exactly one song should have `"spotlight": true` at a time — if none does,
 the section simply hides itself. The spotlight song also appears in its
 regular category below, so nothing else needs to change.
 
+### Spotlight without adding it to the jukebox
+
+If you want a song at the top **only** — no card in the grid below, and no
+effect on the filter counts — add `"spotlightOnly": true` alongside
+`"spotlight": true`:
+
+```json
+{
+  "title": "Don't Go Quiet",
+  "occasion": "tribute",
+  "year": 2026,
+  "blurb": "One sentence about the song.",
+  "youtubeId": "Cp6tOij60c8",
+  "featured": false,
+  "spotlight": true,
+  "spotlightOnly": true
+}
+```
+
+The entry still needs `occasion`, `year`, and `blurb` — the spotlight card
+shows all three. When you're ready to move it into the rotation, delete the
+`"spotlightOnly"` line.
+
 **Tip:** if the page ever shows "We couldn't load the jukebox," the last edit
 probably broke the JSON (usually a missing or extra comma). Paste the file into
 https://jsonlint.com to find the exact spot.
