@@ -1,12 +1,22 @@
 [
   {
+    "title": "Don't Go Quiet",
+    "occasion": "celebration-of-life",
+    "year": 2026,
+    "blurb": "A celebration of life for someone who never did anything quietly — a send-off with the volume up, the way they'd have wanted it.",
+    "youtubeId": "Cp6tOij60c8",
+    "featured": false,
+    "spotlight": true,
+    "spotlightOnly": true
+  },
+  {
     "title": "I'm Still Here",
     "occasion": "memorial",
     "year": 2026,
     "blurb": "A memorial song sung from the other side of goodbye — a gentle promise that the ones we love never really leave us.",
     "youtubeId": "a50GgjTQago",
     "featured": true,
-    "spotlight": true
+    "spotlight": false
   },
   {
     "title": "I See You",
