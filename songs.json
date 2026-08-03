@@ -1,13 +1,21 @@
 [
   {
+    "title": "The Quiet After",
+    "occasion": "memorial",
+    "year": 2026,
+    "blurb": "A memorial song for the stillness that settles in after someone's gone — and the love that keeps filling it.",
+    "youtubeId": "scwM7dTLA1Q",
+    "featured": false,
+    "spotlight": true,
+    "spotlightOnly": true
+  },
+  {
     "title": "Don't Go Quiet",
     "occasion": "celebration-of-life",
     "year": 2026,
     "blurb": "A celebration of life for someone who never did anything quietly — a send-off with the volume up, the way they'd have wanted it.",
     "youtubeId": "Cp6tOij60c8",
-    "featured": false,
-    "spotlight": true,
-    "spotlightOnly": true
+    "featured": false
   },
   {
     "title": "I'm Still Here",
