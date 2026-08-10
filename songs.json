@@ -1,13 +1,21 @@
 [
   {
+    "title": "I Got That From You",
+    "occasion": "memorial",
+    "year": 2026,
+    "blurb": "A memorial song about everything they left behind in us — the laugh, the stubborn streak, the way of loving people. We got that from you.",
+    "youtubeId": "ZFnKbaB54yQ",
+    "featured": false,
+    "spotlight": true,
+    "spotlightOnly": true
+  },
+  {
     "title": "The Quiet After",
     "occasion": "memorial",
     "year": 2026,
     "blurb": "A memorial song for the stillness that settles in after someone's gone — and the love that keeps filling it.",
     "youtubeId": "scwM7dTLA1Q",
-    "featured": false,
-    "spotlight": true,
-    "spotlightOnly": true
+    "featured": false
   },
   {
     "title": "Don't Go Quiet",
