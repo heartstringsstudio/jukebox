@@ -1,13 +1,21 @@
 [
   {
+    "title": "Ask Your Teacher",
+    "occasion": "tribute",
+    "year": 2026,
+    "blurb": "A fun back-to-school tip of the hat to teachers — nurse, referee, counselor, and cheerleader, all before the lunch bell rings.",
+    "youtubeId": "mScHO6MRXow",
+    "featured": false,
+    "spotlight": true,
+    "spotlightOnly": true
+  },
+  {
     "title": "I Got That From You",
     "occasion": "memorial",
     "year": 2026,
     "blurb": "A memorial song about everything they left behind in us — the laugh, the stubborn streak, the way of loving people. We got that from you.",
     "youtubeId": "ZFnKbaB54yQ",
-    "featured": false,
-    "spotlight": true,
-    "spotlightOnly": true
+    "featured": false
   },
   {
     "title": "The Quiet After",
