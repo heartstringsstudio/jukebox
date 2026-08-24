@@ -1,13 +1,21 @@
 [
   {
+    "title": "Two Weeks In The Kitchen",
+    "occasion": "wedding",
+    "year": 2026,
+    "blurb": "A father-daughter wedding song about the two weeks he spent learning to dance on the kitchen floor — and what he was really practicing for.",
+    "youtubeId": "O9YqauiOqzE",
+    "featured": false,
+    "spotlight": true,
+    "spotlightOnly": true
+  },
+  {
     "title": "Ask Your Teacher",
     "occasion": "tribute",
     "year": 2026,
     "blurb": "A fun back-to-school tip of the hat to teachers — nurse, referee, counselor, and cheerleader, all before the lunch bell rings.",
     "youtubeId": "mScHO6MRXow",
-    "featured": false,
-    "spotlight": true,
-    "spotlightOnly": true
+    "featured": false
   },
   {
     "title": "The Choice Is Mine",
