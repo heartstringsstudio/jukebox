@@ -12,10 +12,24 @@
 <meta property="og:description" content="A taste of the songs we've made, ready to play. Hear the range in under a minute.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://heartstringsstudio.github.io/jukebox/">
+<meta property="og:image" content="https://heartstringsstudio.github.io/heartstringsstudio/banner.jpeg">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="600">
+<meta property="og:image:alt" content="Heartstrings Studio — custom songwriting from Lumberport, West Virginia">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://i.ytimg.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap">
+
+<!-- Google Analytics (same GA4 property as the main site) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TB4NQVQ8VZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TB4NQVQ8VZ');
+</script>
 <style>
   /* Palette + type mirror the main site (heartstringsstudio.github.io) */
   :root{
@@ -707,7 +721,7 @@
   </div>
   <p class="jukebox-title">The Studio Jukebox</p>
   <p class="jukebox-sub">A taste of the songs we've made, ready to play. Press play on any card and hear a real story, set to music.</p>
-  <a class="btn-ornate" href="https://tinyurl.com/heartstringswv"><span class="btn-sweep" aria-hidden="true"></span><span>Commission Your Song</span></a>
+  <a class="btn-ornate" href="https://heartstringsstudio.github.io/storyroom/"><span class="btn-sweep" aria-hidden="true"></span><span>Commission Your Song</span></a>
 </header>
 
 <section class="spotlight" id="this-week" aria-labelledby="spotlightTitle" hidden>
@@ -736,8 +750,9 @@
   <p class="footer-name">Heartstrings Studio</p>
   <p class="footer-tag">Custom songs, written with heart in West Virginia.</p>
   <div class="footer-links">
-    <a href="mailto:heartstringsstudiowv@gmail.com">heartstringsstudiowv@gmail.com</a>
+    <a href="https://heartstringsstudio.github.io/storyroom/">Commission a song</a>
     <a href="https://heartstringsstudio.github.io/heartstringsstudio/">Visit the main site</a>
+    <a href="mailto:heartstringsstudiowv@gmail.com">heartstringsstudiowv@gmail.com</a>
   </div>
 </footer>
 
@@ -752,7 +767,7 @@
     { key:"wedding",             label:"Weddings" },
     { key:"milestone",           label:"Milestones" },
     { key:"tribute",             label:"Tributes" },
-    { key:"holiday",             label:"Other" }
+    { key:"holiday",             label:"Holidays" }
   ];
   var BADGE_LABELS = {
     "memorial":"Memorial",
@@ -760,7 +775,7 @@
     "wedding":"Wedding",
     "milestone":"Milestone",
     "tribute":"Tribute",
-    "holiday":"Other"
+    "holiday":"Holiday"
   };
 
   var grid = document.getElementById("grid");
@@ -991,6 +1006,14 @@
     if(current && current.card === card) return;
     stopCurrent();
 
+    if(typeof gtag === "function"){
+      gtag("event", "song_play", {
+        event_category: "engagement",
+        event_label: song.title,
+        occasion: song.occasion
+      });
+    }
+
     var faceEl = card.querySelector(".card-face");
     if(faceEl) faceEl.remove();
 
@@ -1085,6 +1108,20 @@
   document.addEventListener("keydown", function(e){
     if(e.key === "Escape") stopCurrent(true);
   });
+
+  /* Commission clicks are the jukebox's conversion signal — mirror the
+     main site's cta_click / generate_lead events. */
+  document.addEventListener("click", function(e){
+    if(typeof gtag !== "function" || !e.target.closest) return;
+    var el = e.target.closest("a");
+    if(!el) return;
+    var href = el.getAttribute("href") || "";
+    if(href.indexOf("/storyroom/") !== -1){
+      var txt = (el.textContent || "").replace(/\s+/g, " ").trim();
+      gtag("event", "cta_click", { cta: "begin_song", event_category: "engagement", event_label: txt.slice(0, 50) });
+      gtag("event", "generate_lead", { event_category: "conversion", event_label: "jukebox" });
+    }
+  }, true);
 })();
 </script>
 
