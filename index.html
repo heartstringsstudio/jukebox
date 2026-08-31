@@ -778,6 +778,42 @@
     "holiday":"Holiday"
   };
 
+  // ---------- Rotation ----------
+  // The jukebox is a sampler, not an archive. songs.json keeps every song we've
+  // ever made; the page shows only the newest few in each category so a client
+  // hears our range in one screen instead of scrolling past forty memorials.
+  //
+  // The cap is per occasion, not per page, so a campaign that adds four
+  // memorials can only push out older memorials — the weddings, milestones and
+  // holidays are untouched.
+  //
+  // Two song flags override it:
+  //   "keep": true      — never rotates out, no matter how old it gets
+  //   "retired": true   — off the page now, still kept in songs.json
+  // Songs with "featured": true are kept automatically.
+  var MAX_PER_OCCASION = 8;
+
+  // songs.json is newest-first (new entries go in at the top), so "oldest out"
+  // is just: walk the list from the top and stop once a category is full.
+  function applyRotation(list){
+    var onPage = list.filter(function(s){ return s.retired !== true; });
+    var isKeeper = function(s){ return s.keep === true || s.featured === true; };
+
+    // Keepers claim their slots first, wherever they sit in the file.
+    var used = {};
+    onPage.forEach(function(s){
+      if(isKeeper(s)) used[s.occasion] = (used[s.occasion] || 0) + 1;
+    });
+
+    return onPage.filter(function(s){
+      if(isKeeper(s)) return true;
+      var n = used[s.occasion] || 0;
+      if(n >= MAX_PER_OCCASION) return false;   // category full — this one sits out
+      used[s.occasion] = n + 1;
+      return true;
+    });
+  }
+
   var grid = document.getElementById("grid");
   var filterBar = document.getElementById("filterBar");
   var songs = [];
@@ -801,13 +837,16 @@
   fetch("songs.json", { cache: "no-cache" })
     .then(function(r){ if(!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
     .then(function(data){
-      var all = data.slice().sort(function(a, b){
-        return (b.featured === true) - (a.featured === true);
-      });
-      spotlightSong = all.filter(function(s){ return s.spotlight === true; })[0] || null;
+      // This week's song always shows up top, rotation or not.
+      spotlightSong = data.filter(function(s){ return s.spotlight === true; })[0] || null;
       // "spotlightOnly" songs live at the top of the page only — they stay out of
       // the grid below and out of the filter counts.
-      songs = all.filter(function(s){ return s.spotlightOnly !== true; });
+      var eligible = data.filter(function(s){ return s.spotlightOnly !== true; });
+      // Rotate first (that reads file order, which is newest-first), then hoist
+      // the featured songs to the top for display.
+      songs = applyRotation(eligible).sort(function(a, b){
+        return (b.featured === true) - (a.featured === true);
+      });
       renderSpotlight();
       buildFilters();
       renderGrid();

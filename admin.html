@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Jukebox Control Panel — Heartstrings Studio</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<meta name="theme-color" content="#1a1416">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap">
+<style>
+  :root{
+    --charcoal:#1a1416; --cream:#faf6f2; --cream-warm:#f4ede6; --cream-deep:#ebe2d6;
+    --rose:#c0455a; --rose-light:#d4637a; --rose-pale:#f2ccd4; --rose-deep:#8b2a3a;
+    --gold:#b8956a; --text-body:#3a2e30; --text-muted:#7a6668; --white:#fff;
+    --divider:#e8dde0; --divider-soft:#f0e6ea;
+    --green:#4a7c59; --green-pale:#e3efe6;
+    --serif:'Cormorant Garamond',Georgia,serif;
+    --sans:'Lato',system-ui,sans-serif;
+    --shadow-sm:0 2px 12px rgba(58,46,48,.05),0 1px 3px rgba(58,46,48,.06);
+    --shadow-md:0 8px 28px rgba(58,46,48,.09),0 2px 6px rgba(58,46,48,.04);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--text-body);font-family:var(--sans);
+       font-size:15px;line-height:1.5;padding-bottom:120px;-webkit-text-size-adjust:100%}
+  .wrap{max-width:920px;margin:0 auto;padding:0 18px}
+
+  header{background:var(--charcoal);color:var(--cream);padding:28px 0 26px;margin-bottom:26px}
+  header h1{font-family:var(--serif);font-weight:600;font-size:2.1rem;margin:0 0 6px;letter-spacing:.01em}
+  header p{margin:0;color:#c9b8ba;font-size:.92rem;font-weight:300;max-width:60ch}
+  header a{color:var(--rose-pale)}
+
+  h2{font-family:var(--serif);font-size:1.5rem;font-weight:600;margin:34px 0 4px;color:var(--charcoal)}
+  h2:first-of-type{margin-top:0}
+  .hint{color:var(--text-muted);font-size:.86rem;margin:0 0 16px;max-width:70ch}
+
+  .panel{background:var(--white);border:1px solid var(--divider);border-radius:14px;
+         padding:20px;box-shadow:var(--shadow-sm);margin-bottom:22px}
+
+  /* ---- slot meters ---- */
+  .meters{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px}
+  .meter{background:var(--cream-warm);border:1px solid var(--divider);border-radius:10px;padding:10px 12px}
+  .meter .m-name{font-size:.74rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);
+                 white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .meter .m-count{font-family:var(--serif);font-size:1.45rem;font-weight:600;color:var(--charcoal);line-height:1.2}
+  .meter .m-count b{color:var(--rose)}
+  .meter .m-sub{font-size:.74rem;color:var(--text-muted)}
+  .meter.full{border-color:var(--rose-pale);background:#fdf3f5}
+  .bar{height:4px;background:var(--cream-deep);border-radius:3px;margin-top:7px;overflow:hidden}
+  .bar span{display:block;height:100%;background:var(--rose-light);border-radius:3px}
+  .bar span.keeps{background:var(--gold)}
+
+  .note{border-radius:10px;padding:11px 14px;font-size:.85rem;margin-top:12px}
+  .note.ok{background:var(--cream-warm);border:1px solid var(--divider);color:var(--text-muted)}
+  .note.warn{background:#fdf3f5;border:1px solid var(--rose-pale);color:var(--rose-deep)}
+  .note b{color:var(--charcoal)}
+
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin:0 0 14px;padding:12px 14px;
+          background:var(--cream-warm);border:1px solid var(--divider);border-radius:10px}
+  .legend div{font-size:.8rem;color:var(--text-muted);flex:1 1 200px}
+  .legend b{display:block;color:var(--charcoal);font-size:.83rem}
+
+  /* ---- song rows ---- */
+  .group-head{font-family:var(--serif);font-size:1.12rem;font-weight:600;color:var(--rose-deep);
+              margin:22px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--divider)}
+  .song{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:var(--white);
+        border:1px solid var(--divider);border-radius:11px;margin-bottom:8px;transition:opacity .18s,border-color .18s}
+  .song.benched{opacity:.55;background:var(--cream-warm)}
+  .song.retired{opacity:.42;background:repeating-linear-gradient(45deg,#fbf7f4,#fbf7f4 8px,#f4ede6 8px,#f4ede6 16px)}
+  .song.kept{border-color:var(--gold)}
+  .s-main{flex:1;min-width:0}
+  .s-title{font-weight:700;font-size:.97rem;color:var(--charcoal);word-wrap:break-word}
+  .s-meta{font-size:.78rem;color:var(--text-muted);margin-top:1px}
+  .s-toggles{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+  .chip{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;font-weight:700;
+        border:1px solid var(--divider);background:var(--cream);color:var(--text-muted);
+        border-radius:999px;padding:4px 11px;cursor:pointer;user-select:none;
+        font-family:var(--sans);transition:all .15s}
+  .chip:hover{border-color:var(--rose-light);color:var(--rose-deep)}
+  .chip[aria-pressed="true"]{background:var(--rose);border-color:var(--rose);color:var(--white)}
+  .chip.keep[aria-pressed="true"]{background:var(--gold);border-color:var(--gold)}
+  .chip.retire[aria-pressed="true"]{background:var(--charcoal);border-color:var(--charcoal)}
+  /* Featured and This Week use the same two colours as their ribbons on the live page */
+  .chip.feature[aria-pressed="true"]{background:var(--rose);border-color:var(--rose)}
+  .chip.week[aria-pressed="true"]{background:var(--rose-deep);border-color:var(--rose-deep)}
+  /* a Keep that's switched on for you, because the song is featured */
+  .chip.implied{border:1px dashed var(--gold);color:var(--gold);background:var(--white)}
+  .chip.implied:hover{border-color:var(--gold);color:var(--rose-deep)}
+  .chip.plain{font-weight:400}
+  .status{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+          padding:4px 9px;border-radius:999px;white-space:nowrap;flex-shrink:0}
+  .status.on{background:var(--green-pale);color:var(--green)}
+  .status.off{background:var(--cream-deep);color:var(--text-muted)}
+  .status.out{background:#fbe3e7;color:var(--rose-deep)}
+
+  /* ---- add form ---- */
+  .field{margin-bottom:13px}
+  .field label{display:block;font-size:.78rem;font-weight:700;text-transform:uppercase;
+               letter-spacing:.06em;color:var(--text-muted);margin-bottom:4px}
+  .field input,.field select,.field textarea{width:100%;padding:9px 11px;border:1px solid var(--divider);
+    border-radius:8px;font-family:var(--sans);font-size:.93rem;color:var(--text-body);background:var(--cream);}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--rose-light);outline-offset:1px;background:var(--white)}
+  .field textarea{min-height:64px;resize:vertical}
+  .row2{display:grid;grid-template-columns:1fr 120px;gap:12px}
+  .fieldnote{font-size:.76rem;color:var(--text-muted);margin-top:3px}
+
+  button.btn{font-family:var(--sans);font-size:.86rem;font-weight:700;border-radius:999px;
+    padding:10px 20px;cursor:pointer;border:1px solid var(--rose);background:var(--rose);color:var(--white);
+    transition:all .15s}
+  button.btn:hover{background:var(--rose-deep);border-color:var(--rose-deep)}
+  button.btn.ghost{background:transparent;color:var(--rose-deep);border-color:var(--rose-pale)}
+  button.btn.ghost:hover{background:var(--rose-pale);color:var(--rose-deep)}
+  button.btn:disabled{opacity:.45;cursor:not-allowed}
+
+  /* ---- save bar ---- */
+  .savebar{position:fixed;left:0;right:0;bottom:0;background:var(--charcoal);color:var(--cream);
+    padding:12px 0;box-shadow:0 -6px 24px rgba(26,20,22,.22);z-index:50}
+  .savebar .wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .savebar .changes{flex:1;min-width:150px;font-size:.85rem;color:#c9b8ba}
+  .savebar .changes b{color:var(--rose-pale)}
+  .savebar .btn{border-color:var(--rose);background:var(--rose)}
+  .savebar .btn.ghost{background:transparent;color:var(--cream);border-color:#5a4a4d}
+  .savebar .btn.ghost:hover{background:#2e2427;color:var(--cream)}
+
+  details.json{margin-top:14px}
+  details.json summary{cursor:pointer;font-size:.83rem;color:var(--text-muted);font-weight:700}
+  textarea#jsonOut{width:100%;min-height:220px;font-family:ui-monospace,Menlo,Consolas,monospace;
+    font-size:.76rem;border:1px solid var(--divider);border-radius:8px;padding:10px;background:var(--cream);
+    color:var(--text-body);margin-top:9px}
+
+  .steps{counter-reset:s;list-style:none;padding:0;margin:8px 0 0}
+  .steps li{counter-increment:s;position:relative;padding-left:32px;margin-bottom:9px;font-size:.88rem}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:-1px;width:22px;height:22px;
+    border-radius:50%;background:var(--rose-pale);color:var(--rose-deep);font-weight:700;font-size:.76rem;
+    display:flex;align-items:center;justify-content:center}
+  .steps a{color:var(--rose-deep);font-weight:700}
+
+  .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:96px;background:var(--charcoal);
+    color:var(--cream);padding:11px 22px;border-radius:999px;font-size:.87rem;font-weight:700;
+    box-shadow:var(--shadow-md);opacity:0;pointer-events:none;transition:opacity .25s;z-index:60}
+  .toast.show{opacity:1}
+  .err{background:#fbe3e7;border:1px solid var(--rose-pale);color:var(--rose-deep);
+       padding:14px 16px;border-radius:10px;font-size:.9rem}
+  @media(max-width:520px){
+    .row2{grid-template-columns:1fr}
+    header h1{font-size:1.7rem}
+    .song{flex-wrap:wrap}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>Jukebox Control Panel</h1>
+    <p>Add songs, keep the ones you never want to lose, and see exactly what's on the
+       page before you publish. Nothing here touches the live site until you save —
+       this is a worksheet, not a switchboard.</p>
+  </div>
+</header>
+
+<div class="wrap" id="app">
+  <p class="hint">Loading the jukebox…</p>
+</div>
+
+<div class="savebar" hidden id="savebar">
+  <div class="wrap">
+    <div class="changes" id="changeNote">No changes yet.</div>
+    <button class="btn ghost" type="button" id="btnRevert">Undo all</button>
+    <button class="btn" type="button" id="btnSave">Save changes</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  var OCCASIONS = [
+    { key:"memorial",            label:"Memorials" },
+    { key:"celebration-of-life", label:"Celebrations of Life" },
+    { key:"wedding",             label:"Weddings" },
+    { key:"milestone",           label:"Milestones" },
+    { key:"tribute",             label:"Tributes" },
+    { key:"holiday",             label:"Holidays" }
+  ];
+  var LABEL = {};
+  OCCASIONS.forEach(function(o){ LABEL[o.key] = o.label; });
+
+  var REPO_EDIT = "https://github.com/heartstringsstudio/jukebox/edit/main/songs.json";
+
+  var MAX_PER_OCCASION = 8;   // read from index.html so the two never drift
+  var original = null;        // pristine copy, for "Undo all"
+  var songs = null;           // working copy
+  var app = document.getElementById("app");
+
+  // ---------- boot ----------
+  Promise.all([
+    fetch("songs.json", { cache:"no-cache" }).then(function(r){
+      if(!r.ok) throw new Error("songs.json returned HTTP " + r.status);
+      return r.json();
+    }),
+    fetch("index.html", { cache:"no-cache" }).then(function(r){ return r.ok ? r.text() : ""; })
+      .catch(function(){ return ""; })
+  ]).then(function(res){
+    var cap = /MAX_PER_OCCASION\s*=\s*(\d+)/.exec(res[1] || "");
+    if(cap) MAX_PER_OCCASION = parseInt(cap[1], 10);
+    songs = res[0];
+    original = JSON.parse(JSON.stringify(songs));
+    render();
+  }).catch(function(e){
+    app.innerHTML = "";
+    var d = document.createElement("div");
+    d.className = "err";
+    d.textContent = "Couldn't load songs.json — " + e.message +
+      ". If you opened this file straight off your computer, it needs to be served over " +
+      "the web: use the live URL instead.";
+    app.appendChild(d);
+  });
+
+  // ---------- rotation (mirrors index.html exactly) ----------
+  function isKeeper(s){ return s.keep === true || s.featured === true; }
+
+  function rotationState(){
+    var state = {};      // title -> "on" | "benched" | "retired" | "spotlight-only"
+    var used = {};
+    var live = songs.filter(function(s){
+      if(s.retired === true){ state[key(s)] = "retired"; return false; }
+      if(s.spotlightOnly === true){ state[key(s)] = "spotlight-only"; return false; }
+      return true;
+    });
+    live.forEach(function(s){
+      if(isKeeper(s)) used[s.occasion] = (used[s.occasion] || 0) + 1;
+    });
+    live.forEach(function(s){
+      if(isKeeper(s)){ state[key(s)] = "on"; return; }
+      var n = used[s.occasion] || 0;
+      if(n >= MAX_PER_OCCASION){ state[key(s)] = "benched"; return; }
+      used[s.occasion] = n + 1;
+      state[key(s)] = "on";
+    });
+    return state;
+  }
+  function key(s){ return s.title + "|" + s.youtubeId; }
+
+  function tally(){
+    var t = {};
+    OCCASIONS.forEach(function(o){ t[o.key] = { on:0, keeps:0, benched:0, total:0 }; });
+    var state = rotationState();
+    songs.forEach(function(s){
+      var b = t[s.occasion];
+      if(!b) return;
+      b.total++;
+      var st = state[key(s)];
+      if(st === "on"){ b.on++; if(isKeeper(s)) b.keeps++; }
+      else if(st === "benched"){ b.benched++; }
+    });
+    return t;
+  }
+
+  // ---------- render ----------
+  function render(){
+    var scrollY = window.scrollY;
+    app.innerHTML = "";
+    app.appendChild(sectionMeters());
+    app.appendChild(sectionAdd());
+    app.appendChild(sectionSongs());
+    app.appendChild(sectionSave());
+    updateChangeNote();
+    window.scrollTo(0, scrollY);
+  }
+
+  function h(tag, cls, text){
+    var el = document.createElement(tag);
+    if(cls) el.className = cls;
+    if(text != null) el.textContent = text;
+    return el;
+  }
+
+  function sectionMeters(){
+    var frag = document.createDocumentFragment();
+    frag.appendChild(h("h2", null, "What's on the page right now"));
+    frag.appendChild(h("p", "hint",
+      "Each category shows its newest " + MAX_PER_OCCASION + " songs. Gold is the part " +
+      "you've locked with Keep — those never rotate out. When a category is full, the next " +
+      "song you add to it pushes the oldest unkept one off."));
+
+    var t = tally();
+    var box = h("div", "meters");
+    OCCASIONS.forEach(function(o){
+      var b = t[o.key];
+      var m = h("div", "meter" + (b.on >= MAX_PER_OCCASION ? " full" : ""));
+      m.appendChild(h("div", "m-name", o.label));
+      var c = h("div", "m-count");
+      var strong = h("b", null, String(b.on));
+      c.appendChild(strong);
+      c.appendChild(document.createTextNode(" / " + MAX_PER_OCCASION));
+      m.appendChild(c);
+      var bar = h("div", "bar");
+      var keeps = h("span", "keeps");
+      keeps.style.width = Math.round(b.keeps / MAX_PER_OCCASION * 100) + "%";
+      bar.appendChild(keeps);
+      m.appendChild(bar);
+      var sub = b.keeps + " kept";
+      if(b.benched) sub += " · " + b.benched + " rotated off";
+      m.appendChild(h("div", "m-sub", sub));
+      box.appendChild(m);
+    });
+    frag.appendChild(box);
+
+    // Featured is the one flag that works across the whole page rather than
+    // inside a category, so it gets counted on its own.
+    var feat = songs.filter(function(x){ return x.featured === true && x.retired !== true; });
+    var many = feat.length > 3;
+    var note = h("div", "note " + (many ? "warn" : "ok"));
+    var b = h("b", null, feat.length === 0 ? "No featured songs" :
+      feat.length + " featured song" + (feat.length === 1 ? "" : "s"));
+    note.appendChild(b);
+    note.appendChild(document.createTextNode(
+      feat.length === 0
+        ? " — nothing is pinned to the top of the grid right now."
+        : ": " + feat.map(function(x){ return x.title; }).join(", ") + ". "
+    ));
+    if(feat.length > 0){
+      note.appendChild(document.createTextNode(
+        many ? "That's a lot — when everything is starred, nothing stands out. Three or fewer keeps ★ meaningful."
+             : "They sit at the top of the grid with a ★ ribbon, and never rotate out."
+      ));
+    }
+    frag.appendChild(note);
+    return frag;
+  }
+
+  // ---------- add a song ----------
+  function sectionAdd(){
+    var frag = document.createDocumentFragment();
+    frag.appendChild(h("h2", null, "Add a song"));
+    frag.appendChild(h("p", "hint",
+      "This writes the entry for you — no JSON, no commas to get wrong. The new song " +
+      "goes in at the top, which makes it the newest in its category."));
+
+    var p = h("div", "panel");
+
+    p.appendChild(field("Title", input("text", "f-title", "Song title as it should appear")));
+
+    var sel = document.createElement("select");
+    sel.id = "f-occasion";
+    OCCASIONS.forEach(function(o){
+      var opt = document.createElement("option");
+      opt.value = o.key; opt.textContent = o.label;
+      sel.appendChild(opt);
+    });
+    var row = h("div", "row2");
+    row.appendChild(field("Category", sel));
+    var yr = input("number", "f-year", "");
+    yr.value = new Date().getFullYear();
+    row.appendChild(field("Year", yr));
+    p.appendChild(row);
+
+    var ta = document.createElement("textarea");
+    ta.id = "f-blurb";
+    ta.placeholder = "One warm sentence about the story behind the song.";
+    p.appendChild(field("Blurb", ta));
+
+    var yt = field("YouTube link or ID", input("text", "f-yt", "https://youtu.be/… or just the ID"));
+    yt.appendChild(h("div", "fieldnote", "Paste the whole link — the ID gets pulled out for you."));
+    p.appendChild(yt);
+
+    var toggles = h("div", "s-toggles");
+    toggles.style.marginBottom = "14px";
+    toggles.appendChild(formChip("f-spot", "♪ This week's song", "week"));
+    toggles.appendChild(formChip("f-spotonly", "Spotlight only (not in the grid)", "week"));
+    toggles.appendChild(formChip("f-featured", "★ Featured", "feature"));
+    p.appendChild(toggles);
+
+    var err = h("div", "fieldnote");
+    err.id = "f-err";
+    err.style.color = "var(--rose-deep)";
+    p.appendChild(err);
+
+    var btn = h("button", "btn", "Add to the jukebox");
+    btn.type = "button";
+    btn.addEventListener("click", addSong);
+    p.appendChild(btn);
+
+    frag.appendChild(p);
+    return frag;
+  }
+
+  function field(labelText, control){
+    var f = h("div", "field");
+    var l = document.createElement("label");
+    l.textContent = labelText;
+    l.setAttribute("for", control.id);
+    f.appendChild(l);
+    f.appendChild(control);
+    return f;
+  }
+  function input(type, id, placeholder){
+    var i = document.createElement("input");
+    i.type = type; i.id = id; i.placeholder = placeholder || "";
+    return i;
+  }
+  function formChip(id, label, extraCls){
+    var b = h("button", "chip " + (extraCls || ""), label);
+    b.type = "button"; b.id = id;
+    b.setAttribute("aria-pressed", "false");
+    b.addEventListener("click", function(){
+      b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") === "true" ? "false" : "true");
+    });
+    return b;
+  }
+  function pressed(id){
+    var el = document.getElementById(id);
+    return !!el && el.getAttribute("aria-pressed") === "true";
+  }
+
+  function youtubeId(raw){
+    var v = (raw || "").trim();
+    if(!v) return "";
+    var m = /(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/live\/)([A-Za-z0-9_-]{11})/.exec(v);
+    if(m) return m[1];
+    if(/^[A-Za-z0-9_-]{11}$/.test(v)) return v;
+    return null;   // looks like something, but not an ID we recognise
+  }
+
+  function addSong(){
+    var err = document.getElementById("f-err");
+    err.textContent = "";
+    var title = document.getElementById("f-title").value.trim();
+    var blurb = document.getElementById("f-blurb").value.trim();
+    var id    = youtubeId(document.getElementById("f-yt").value);
+    var year  = parseInt(document.getElementById("f-year").value, 10);
+
+    if(!title){ err.textContent = "The song needs a title."; return; }
+    if(!blurb){ err.textContent = "Add a one-sentence blurb — it's the whole card."; return; }
+    if(id === null){ err.textContent = "That YouTube link didn't have an 11-character video ID in it."; return; }
+    if(!id){ err.textContent = "Paste the song's YouTube link."; return; }
+    if(!year){ err.textContent = "Add the year."; return; }
+
+    var entry = {
+      title: title,
+      occasion: document.getElementById("f-occasion").value,
+      year: year,
+      blurb: blurb,
+      youtubeId: id,
+      featured: pressed("f-featured")
+    };
+    if(pressed("f-spot")){
+      songs.forEach(function(s){ delete s.spotlight; delete s.spotlightOnly; });
+      entry.spotlight = true;
+      if(pressed("f-spotonly")) entry.spotlightOnly = true;
+    }
+    songs.unshift(entry);
+    render();
+    toast("“" + title + "” added — save when you're ready");
+  }
+
+  // ---------- the song list ----------
+  function sectionSongs(){
+    var frag = document.createDocumentFragment();
+    frag.appendChild(h("h2", null, "Every song"));
+    frag.appendChild(h("p", "hint",
+      "Newest first, the way they sit in the file. Tap any of the four toggles on a song — " +
+      "the slot meters above update as you go, so you can see the effect before you publish."));
+
+    var leg = h("div", "legend");
+    [
+      ["📌 Keep", "Locks the song on the page. It never rotates out, however old it gets."],
+      ["★ Featured", "Pins it to the top of the grid with a ★ ribbon. Kept automatically. Best used on two or three."],
+      ["♪ This week", "The Just Released card at the very top. Only one song at a time — setting it clears the old one."],
+      ["Retire", "Takes it off the page without deleting it. Stays in the file; one tap brings it back."]
+    ].forEach(function(pair){
+      var d = document.createElement("div");
+      d.appendChild(h("b", null, pair[0]));
+      d.appendChild(document.createTextNode(pair[1]));
+      leg.appendChild(d);
+    });
+    frag.appendChild(leg);
+
+    var state = rotationState();
+    var byOcc = {};
+    songs.forEach(function(s){ (byOcc[s.occasion] = byOcc[s.occasion] || []).push(s); });
+
+    OCCASIONS.forEach(function(o){
+      var list = byOcc[o.key];
+      if(!list || !list.length) return;
+      frag.appendChild(h("div", "group-head", o.label + " (" + list.length + ")"));
+      list.forEach(function(s){ frag.appendChild(songRow(s, state[key(s)])); });
+    });
+    return frag;
+  }
+
+  function songRow(s, st){
+    var cls = "song";
+    if(st === "benched") cls += " benched";
+    if(st === "retired") cls += " retired";
+    if(isKeeper(s) && st === "on") cls += " kept";
+    var row = h("div", cls);
+
+    var main = h("div", "s-main");
+    main.appendChild(h("div", "s-title", s.title));
+    var meta = LABEL[s.occasion] || s.occasion;
+    meta += " · " + s.year;
+    if(s.spotlight) meta += " · ♪ this week";
+    main.appendChild(h("div", "s-meta", meta));
+
+    var tog = h("div", "s-toggles");
+    // A featured song is already kept, so show Keep as on-by-implication
+    // (dashed gold) rather than off — otherwise it reads as unprotected.
+    var impliedKeep = s.featured === true && s.keep !== true;
+    tog.appendChild(toggle("keep" + (impliedKeep ? " implied" : ""), "📌 Keep", s.keep === true, function(){
+      if(s.keep === true) delete s.keep; else s.keep = true;
+    }, impliedKeep ? "Already kept, because it's featured. Tap to keep it even if you unstar it later."
+                   : "Never rotates out"));
+    tog.appendChild(toggle("feature", "★ Featured", s.featured === true, function(){
+      s.featured = !(s.featured === true);
+    }, "Pins it to the top of the grid with a ★ ribbon"));
+    tog.appendChild(toggle("retire", "Retire", s.retired === true, function(){
+      if(s.retired === true) delete s.retired; else s.retired = true;
+    }, "Off the page, but kept in the file"));
+    tog.appendChild(toggle("week", "♪ This week", s.spotlight === true, function(){
+      var was = s.spotlight === true;
+      songs.forEach(function(x){ delete x.spotlight; delete x.spotlightOnly; });
+      if(!was) s.spotlight = true;
+    }));
+
+    if(st === "benched" || st === "retired"){
+      var top = h("button", "chip plain", "↑ Make newest");
+      top.type = "button";
+      top.title = "Move it to the top of the file so it counts as the newest song in its category";
+      top.addEventListener("click", function(){
+        var i = songs.indexOf(s);
+        if(i > -1){ songs.splice(i, 1); songs.unshift(s); }
+        render();
+      });
+      tog.appendChild(top);
+    }
+    main.appendChild(tog);
+    row.appendChild(main);
+
+    var chip = h("span", "status " + (st === "on" ? "on" : st === "benched" ? "out" : "off"),
+      st === "on" ? "On the page" :
+      st === "benched" ? "Rotated off" :
+      st === "retired" ? "Retired" : "Spotlight only");
+    row.appendChild(chip);
+    return row;
+  }
+
+  function toggle(extraCls, label, on, onClick, title){
+    var b = h("button", "chip " + extraCls, label);
+    b.type = "button";
+    b.setAttribute("aria-pressed", on ? "true" : "false");
+    if(title) b.title = title;
+    b.addEventListener("click", function(){ onClick(); render(); });
+    return b;
+  }
+
+  // ---------- saving ----------
+  function toJSON(){ return JSON.stringify(songs, null, 2) + "\n"; }
+
+  function sectionSave(){
+    var frag = document.createDocumentFragment();
+    frag.appendChild(h("h2", null, "Publish your changes"));
+    frag.appendChild(h("p", "hint",
+      "The site reads songs.json straight from GitHub, so publishing is a copy and a paste. " +
+      "Takes about twenty seconds."));
+
+    var p = h("div", "panel");
+    var ol = h("ol", "steps");
+    var s1 = document.createElement("li");
+    s1.appendChild(document.createTextNode("Tap "));
+    var b1 = h("strong", null, "Save changes");
+    s1.appendChild(b1);
+    s1.appendChild(document.createTextNode(" below — that copies the whole file to your clipboard."));
+    ol.appendChild(s1);
+
+    var s2 = document.createElement("li");
+    s2.appendChild(document.createTextNode("Open "));
+    var a = document.createElement("a");
+    a.href = REPO_EDIT; a.target = "_blank"; a.rel = "noopener";
+    a.textContent = "songs.json on GitHub";
+    s2.appendChild(a);
+    s2.appendChild(document.createTextNode(" (it opens ready to edit)."));
+    ol.appendChild(s2);
+
+    ol.appendChild(li("Select everything in the box (Ctrl+A, or Cmd+A on a Mac) and paste over it."));
+    ol.appendChild(li("Hit Commit changes. The live site catches up in a minute or two."));
+    p.appendChild(ol);
+
+    var det = h("details", "json");
+    det.appendChild(h("summary", null, "Or see the raw file"));
+    var out = document.createElement("textarea");
+    out.id = "jsonOut";
+    out.readOnly = true;
+    out.value = toJSON();
+    det.appendChild(out);
+    var dl = h("button", "btn ghost", "Download songs.json");
+    dl.type = "button";
+    dl.style.marginTop = "10px";
+    dl.addEventListener("click", download);
+    det.appendChild(dl);
+    p.appendChild(det);
+
+    frag.appendChild(p);
+    return frag;
+  }
+  function li(text){ var l = document.createElement("li"); l.textContent = text; return l; }
+
+  function download(){
+    var blob = new Blob([toJSON()], { type:"application/json" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = "songs.json";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  }
+
+  function describeChanges(){
+    if(!original) return [];
+    var out = [];
+    var wasKey = {}, isKey = {};
+    original.forEach(function(s){ wasKey[key(s)] = s; });
+    songs.forEach(function(s){ isKey[key(s)] = s; });
+
+    songs.forEach(function(s){
+      var was = wasKey[key(s)];
+      if(!was){ out.push("added “" + s.title + "”"); return; }
+      if((was.keep === true) !== (s.keep === true))
+        out.push((s.keep ? "kept " : "unkept ") + "“" + s.title + "”");
+      if((was.retired === true) !== (s.retired === true))
+        out.push((s.retired ? "retired " : "brought back ") + "“" + s.title + "”");
+      if((was.featured === true) !== (s.featured === true))
+        out.push((s.featured ? "featured " : "unfeatured ") + "“" + s.title + "”");
+      if((was.spotlight === true) !== (s.spotlight === true) && s.spotlight === true)
+        out.push("“" + s.title + "” is this week's song");
+    });
+    original.forEach(function(s){
+      if(!isKey[key(s)]) out.push("removed “" + s.title + "”");
+    });
+    return out;
+  }
+
+  function updateChangeNote(){
+    var bar = document.getElementById("savebar");
+    var note = document.getElementById("changeNote");
+    var changes = describeChanges();
+    var dirty = JSON.stringify(songs) !== JSON.stringify(original);
+    bar.hidden = !dirty;
+    if(!dirty) return;
+    note.innerHTML = "";
+    var b = document.createElement("b");
+    b.textContent = changes.length ? String(changes.length) : "Some";
+    note.appendChild(b);
+    note.appendChild(document.createTextNode(
+      " unsaved change" + (changes.length === 1 ? "" : "s") +
+      (changes.length ? ": " + changes.slice(0, 2).join(", ") +
+        (changes.length > 2 ? ", and " + (changes.length - 2) + " more" : "") : "")
+    ));
+    var out = document.getElementById("jsonOut");
+    if(out) out.value = toJSON();
+  }
+
+  document.getElementById("btnSave").addEventListener("click", function(){
+    var text = toJSON();
+    var done = function(){
+      toast("Copied — now paste it into songs.json on GitHub");
+      window.open(REPO_EDIT, "_blank", "noopener");
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done, fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+    function fallbackCopy(){
+      var det = document.querySelector("details.json");
+      if(det) det.open = true;
+      var out = document.getElementById("jsonOut");
+      if(out){ out.focus(); out.select(); out.scrollIntoView({ block:"center" }); }
+      toast("Copy the highlighted text, then paste it into GitHub");
+    }
+  });
+
+  document.getElementById("btnRevert").addEventListener("click", function(){
+    if(!window.confirm("Throw away every change you've made since this page loaded?")) return;
+    songs = JSON.parse(JSON.stringify(original));
+    render();
+    toast("Back to how it was");
+  });
+
+  window.addEventListener("beforeunload", function(e){
+    if(original && JSON.stringify(songs) !== JSON.stringify(original)){
+      e.preventDefault();
+      e.returnValue = "";
+    }
+  });
+
+  var toastTimer = null;
+  function toast(msg){
+    var t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.classList.remove("show"); }, 3200);
+  }
+})();
+</script>
+</body>
+</html>
