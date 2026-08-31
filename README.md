@@ -7,7 +7,42 @@ Pure HTML/CSS/vanilla JS — no build step, no frameworks. Songs load from
 **Live site:** https://heartstringsstudio.github.io/jukebox/
 **Share link:** https://tinyurl.com/hsjukebox (use this one on Facebook and in messages)
 
+## The Control Panel (the easy way)
+
+**https://heartstringsstudio.github.io/jukebox/admin.html**
+
+Everything below can be done by hand in `songs.json`, but you don't have to.
+The control panel is a page in this same repo that gives you:
+
+- **Add a song** — a form. Paste the YouTube link and it pulls the ID out for
+  you. No JSON, no commas to get wrong.
+- **Keep / Retire / Featured / This Week's Song** — a tap each, on any song.
+- **A live picture of what's on the page** — every song is labelled *On the
+  page*, *Rotated off*, or *Retired*, and each category shows how many of its
+  eight slots are used and how many you've locked with Keep. Toggle something
+  and the whole picture updates instantly, so you can see whether a change is
+  about to push a song you love off the page **before** you publish it.
+
+The panel can't change the live site by itself — the site is plain files on
+GitHub, with nothing running behind it. So it does the writing and hands the
+file to you:
+
+1. Tap **Save changes** — the whole corrected file goes to your clipboard and
+   GitHub opens in a new tab.
+2. Select everything in the GitHub editor (Ctrl+A / Cmd+A) and paste over it.
+3. Commit. The live site catches up in a minute or two.
+
+That's the only "coding" left, and it's a paste. Nothing is saved until you do
+it, so you can toggle things freely to see what happens — closing the tab
+throws it all away.
+
+The page is `noindex`, so it won't show up in Google. Anyone with the link can
+open it, but it's a worksheet: it can't change the jukebox, and nothing on it is
+private.
+
 ## How to add a song
+
+The control panel above does this for you. To do it by hand instead:
 
 1. Open `songs.json` (in GitHub: click the file, then the pencil icon to edit).
 2. Copy an existing entry and paste it into the list (watch the commas between
@@ -160,4 +195,5 @@ Every commit to `main` after that redeploys automatically.
 | --- | --- |
 | `index.html` | The whole site — layout, styles, and player logic |
 | `songs.json` | The song list (the only file you edit day-to-day) |
+| `admin.html` | The control panel — add songs and set Keep/Retire without touching JSON |
 | `favicon.png` | Browser-tab icon, copied from the main site |
