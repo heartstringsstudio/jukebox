@@ -1,13 +1,20 @@
 [
   {
+    "title": "Borrowed Words",
+    "occasion": "wedding",
+    "year": 2026,
+    "blurb": "He was never a talker. He showed up, worked second shift, scraped her windshield before she was awake, and left the porch light on. When it came time to say what he felt, the words weren't there — so he went looking for someone who could find them.",
+    "youtubeId": "LRJC0T6VDpw",
+    "featured": false,
+    "spotlight": true
+  },
+  {
     "title": "Two Weeks In The Kitchen",
     "occasion": "wedding",
     "year": 2026,
     "blurb": "A father-daughter wedding song about the two weeks he spent learning to dance on the kitchen floor — and what he was really practicing for.",
     "youtubeId": "O9YqauiOqzE",
-    "featured": false,
-    "spotlight": true,
-    "spotlightOnly": true
+    "featured": false
   },
   {
     "title": "Ask Your Teacher",
@@ -55,8 +62,7 @@
     "year": 2026,
     "blurb": "A memorial song sung from the other side of goodbye — a gentle promise that the ones we love never really leave us.",
     "youtubeId": "a50GgjTQago",
-    "featured": true,
-    "spotlight": false
+    "featured": true
   },
   {
     "title": "I See You",
@@ -64,8 +70,7 @@
     "year": 2026,
     "blurb": "For the friend who lifts everyone else and never asks to be seen — this one sends the same love right back.",
     "youtubeId": "qOrAK4kg1VA",
-    "featured": false,
-    "spotlight": false
+    "featured": false
   },
   {
     "title": "Love Doesn't Leave",
