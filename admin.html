@@ -52,6 +52,16 @@
   .bar span{display:block;height:100%;background:var(--rose-light);border-radius:3px}
   .bar span.keeps{background:var(--gold)}
 
+  .note{border-radius:10px;padding:11px 14px;font-size:.85rem;margin-top:12px}
+  .note.ok{background:var(--cream-warm);border:1px solid var(--divider);color:var(--text-muted)}
+  .note.warn{background:#fdf3f5;border:1px solid var(--rose-pale);color:var(--rose-deep)}
+  .note b{color:var(--charcoal)}
+
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin:0 0 14px;padding:12px 14px;
+          background:var(--cream-warm);border:1px solid var(--divider);border-radius:10px}
+  .legend div{font-size:.8rem;color:var(--text-muted);flex:1 1 200px}
+  .legend b{display:block;color:var(--charcoal);font-size:.83rem}
+
   /* ---- song rows ---- */
   .group-head{font-family:var(--serif);font-size:1.12rem;font-weight:600;color:var(--rose-deep);
               margin:22px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--divider)}
@@ -72,6 +82,12 @@
   .chip[aria-pressed="true"]{background:var(--rose);border-color:var(--rose);color:var(--white)}
   .chip.keep[aria-pressed="true"]{background:var(--gold);border-color:var(--gold)}
   .chip.retire[aria-pressed="true"]{background:var(--charcoal);border-color:var(--charcoal)}
+  /* Featured and This Week use the same two colours as their ribbons on the live page */
+  .chip.feature[aria-pressed="true"]{background:var(--rose);border-color:var(--rose)}
+  .chip.week[aria-pressed="true"]{background:var(--rose-deep);border-color:var(--rose-deep)}
+  /* a Keep that's switched on for you, because the song is featured */
+  .chip.implied{border:1px dashed var(--gold);color:var(--gold);background:var(--white)}
+  .chip.implied:hover{border-color:var(--gold);color:var(--rose-deep)}
   .chip.plain{font-weight:400}
   .status{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
           padding:4px 9px;border-radius:999px;white-space:nowrap;flex-shrink:0}
@@ -294,6 +310,27 @@
       box.appendChild(m);
     });
     frag.appendChild(box);
+
+    // Featured is the one flag that works across the whole page rather than
+    // inside a category, so it gets counted on its own.
+    var feat = songs.filter(function(x){ return x.featured === true && x.retired !== true; });
+    var many = feat.length > 3;
+    var note = h("div", "note " + (many ? "warn" : "ok"));
+    var b = h("b", null, feat.length === 0 ? "No featured songs" :
+      feat.length + " featured song" + (feat.length === 1 ? "" : "s"));
+    note.appendChild(b);
+    note.appendChild(document.createTextNode(
+      feat.length === 0
+        ? " — nothing is pinned to the top of the grid right now."
+        : ": " + feat.map(function(x){ return x.title; }).join(", ") + ". "
+    ));
+    if(feat.length > 0){
+      note.appendChild(document.createTextNode(
+        many ? "That's a lot — when everything is starred, nothing stands out. Three or fewer keeps ★ meaningful."
+             : "They sit at the top of the grid with a ★ ribbon, and never rotate out."
+      ));
+    }
+    frag.appendChild(note);
     return frag;
   }
 
@@ -334,9 +371,9 @@
 
     var toggles = h("div", "s-toggles");
     toggles.style.marginBottom = "14px";
-    toggles.appendChild(formChip("f-spot", "♪ This week's song"));
-    toggles.appendChild(formChip("f-spotonly", "Spotlight only (not in the grid)"));
-    toggles.appendChild(formChip("f-featured", "★ Featured"));
+    toggles.appendChild(formChip("f-spot", "♪ This week's song", "week"));
+    toggles.appendChild(formChip("f-spotonly", "Spotlight only (not in the grid)", "week"));
+    toggles.appendChild(formChip("f-featured", "★ Featured", "feature"));
     p.appendChild(toggles);
 
     var err = h("div", "fieldnote");
@@ -367,8 +404,8 @@
     i.type = type; i.id = id; i.placeholder = placeholder || "";
     return i;
   }
-  function formChip(id, label){
-    var b = h("button", "chip", label);
+  function formChip(id, label, extraCls){
+    var b = h("button", "chip " + (extraCls || ""), label);
     b.type = "button"; b.id = id;
     b.setAttribute("aria-pressed", "false");
     b.addEventListener("click", function(){
@@ -427,9 +464,22 @@
     var frag = document.createDocumentFragment();
     frag.appendChild(h("h2", null, "Every song"));
     frag.appendChild(h("p", "hint",
-      "Newest first, the way they sit in the file. Keep locks a song on the page forever. " +
-      "Retire takes it off the page but never deletes it — the song stays in the file and " +
-      "one tap brings it back."));
+      "Newest first, the way they sit in the file. Tap any of the four toggles on a song — " +
+      "the slot meters above update as you go, so you can see the effect before you publish."));
+
+    var leg = h("div", "legend");
+    [
+      ["📌 Keep", "Locks the song on the page. It never rotates out, however old it gets."],
+      ["★ Featured", "Pins it to the top of the grid with a ★ ribbon. Kept automatically. Best used on two or three."],
+      ["♪ This week", "The Just Released card at the very top. Only one song at a time — setting it clears the old one."],
+      ["Retire", "Takes it off the page without deleting it. Stays in the file; one tap brings it back."]
+    ].forEach(function(pair){
+      var d = document.createElement("div");
+      d.appendChild(h("b", null, pair[0]));
+      d.appendChild(document.createTextNode(pair[1]));
+      leg.appendChild(d);
+    });
+    frag.appendChild(leg);
 
     var state = rotationState();
     var byOcc = {};
@@ -459,16 +509,20 @@
     main.appendChild(h("div", "s-meta", meta));
 
     var tog = h("div", "s-toggles");
-    tog.appendChild(toggle("keep", "📌 Keep", s.keep === true, function(){
+    // A featured song is already kept, so show Keep as on-by-implication
+    // (dashed gold) rather than off — otherwise it reads as unprotected.
+    var impliedKeep = s.featured === true && s.keep !== true;
+    tog.appendChild(toggle("keep" + (impliedKeep ? " implied" : ""), "📌 Keep", s.keep === true, function(){
       if(s.keep === true) delete s.keep; else s.keep = true;
-    }, s.featured === true ? "Featured songs are kept automatically" : ""));
-    tog.appendChild(toggle("", "★ Featured", s.featured === true, function(){
+    }, impliedKeep ? "Already kept, because it's featured. Tap to keep it even if you unstar it later."
+                   : "Never rotates out"));
+    tog.appendChild(toggle("feature", "★ Featured", s.featured === true, function(){
       s.featured = !(s.featured === true);
-    }));
+    }, "Pins it to the top of the grid with a ★ ribbon"));
     tog.appendChild(toggle("retire", "Retire", s.retired === true, function(){
       if(s.retired === true) delete s.retired; else s.retired = true;
-    }));
-    tog.appendChild(toggle("", "♪ This week", s.spotlight === true, function(){
+    }, "Off the page, but kept in the file"));
+    tog.appendChild(toggle("week", "♪ This week", s.spotlight === true, function(){
       var was = s.spotlight === true;
       songs.forEach(function(x){ delete x.spotlight; delete x.spotlightOnly; });
       if(!was) s.spotlight = true;

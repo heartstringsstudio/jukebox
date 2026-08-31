@@ -16,7 +16,13 @@ The control panel is a page in this same repo that gives you:
 
 - **Add a song** — a form. Paste the YouTube link and it pulls the ID out for
   you. No JSON, no commas to get wrong.
-- **Keep / Retire / Featured / This Week's Song** — a tap each, on any song.
+- **Keep / ★ Featured / ♪ This Week's Song / Retire** — a tap each, on any song.
+  Featured and This Week wear the same two colours as their ribbons on the live
+  page, so the panel looks like what you're about to publish. The panel also
+  counts your featured songs and says so when you get past three — when
+  everything is starred, nothing stands out.
+  Starring a song keeps it automatically, so its Keep shows as a dashed gold
+  outline: already protected, nothing to do.
 - **A live picture of what's on the page** — every song is labelled *On the
   page*, *Rotated off*, or *Retired*, and each category shows how many of its
   eight slots are used and how many you've locked with Keep. Toggle something
