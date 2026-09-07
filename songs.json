@@ -1,12 +1,20 @@
 [
   {
+    "title": "Before the Doors Open",
+    "occasion": "wedding",
+    "year": 2026,
+    "blurb": "A bride's song for the last quiet hour before the ceremony — coffee gone cold, the dress on the door, and a whole room filling up down the hall.",
+    "youtubeId": "lLHM931NU4Y",
+    "featured": false,
+    "spotlight": true
+  },
+  {
     "title": "Borrowed Words",
     "occasion": "wedding",
     "year": 2026,
     "blurb": "He was never a talker. He showed up, worked second shift, scraped her windshield before she was awake, and left the porch light on. When it came time to say what he felt, the words weren't there — so he went looking for someone who could find them.",
     "youtubeId": "LRJC0T6VDpw",
-    "featured": false,
-    "spotlight": true
+    "featured": false
   },
   {
     "title": "Two Weeks In The Kitchen",
