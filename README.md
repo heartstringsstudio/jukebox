@@ -183,6 +183,37 @@ shows all three. When you're ready to move it into the rotation, delete the
 probably broke the JSON (usually a missing or extra comma). Paste the file into
 https://jsonlint.com to find the exact spot.
 
+## Keeping the look in step with the main site
+
+The jukebox has no stylesheet of its own to speak of — it borrows the main
+site's design system so the two pages read as one studio. That system is the
+warm walnut/amber one the main site was rebuilt onto in September 2026:
+
+- **Colour** — walnut ground `#271c16`, amber accent `#f0b86f`, and a cream
+  "listen" band `#eedfc6` holding cream photo-print cards `#fff3dc`.
+- **Type** — Libre Caslon Display for the big headings, DM Sans for body copy,
+  Georgia italic for the gold accented phrases inside a heading.
+- **Shape** — 3px corners, hard offset shadows instead of soft blurs, and the
+  amber button with the `0 6px 0` slab underneath it.
+
+The two ribbons have fixed colours, and the control panel's chips reuse them so
+the panel looks like what you're about to publish:
+
+| | Colour |
+| --- | --- |
+| ♪ This week's song | amber `#edb268` on dark ink |
+| ★ Featured | walnut `#774826` on cream |
+| Keep (control panel only) | bronze `#a17c52` |
+
+The hero and closing backdrops load `assets/porch.webp` from the main site
+(same domain, different folder). If that file is ever renamed there, the
+jukebox falls back to a walnut gradient rather than breaking — but it's worth
+fixing the path when it happens.
+
+**If the main site gets restyled again, this page needs the same pass.** The
+tokens all live in the `:root` block at the top of `index.html`, with a
+matching set in `admin.html`.
+
 ## How to deploy (one-time setup)
 
 This repo is a GitHub Pages project site for the `heartstringsstudio` account:
@@ -202,4 +233,5 @@ Every commit to `main` after that redeploys automatically.
 | `index.html` | The whole site — layout, styles, and player logic |
 | `songs.json` | The song list (the only file you edit day-to-day) |
 | `admin.html` | The control panel — add songs and set Keep/Retire without touching JSON |
+| `logo.png` | The studio mark in the page header, copied from the main site |
 | `favicon.png` | Browser-tab icon, copied from the main site |
