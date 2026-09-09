@@ -67,12 +67,26 @@
     --sans:  'DM Sans', system-ui, sans-serif;
   }
   *{ box-sizing:border-box; margin:0; padding:0; }
-  html{ scroll-behavior:smooth; scroll-padding-top:30px; }
+  /* The page scrolls one direction only. Anything that spills past the right
+     edge gets clipped rather than turning the whole site into a sideways drag
+     on a phone. `hidden` is the fallback for browsers without `clip`. */
+  html{
+    scroll-behavior:smooth;
+    scroll-padding-top:30px;
+    overflow-x:hidden;
+    overflow-x:clip;
+    overscroll-behavior-x:none;
+  }
   body{
     background:var(--bg);
     color:var(--ink);
     font:16px/1.7 var(--sans);
+    width:100%;
+    max-width:100%;
     overflow-x:clip;
+    overscroll-behavior-x:none;
+    /* Sideways swipes do nothing; vertical scroll and pinch-zoom still work. */
+    touch-action:pan-y pinch-zoom;
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
     text-rendering:optimizeLegibility;
@@ -632,19 +646,18 @@
     .brand small{ font-size:.68rem; }
     /* One edge-to-edge row of tabs, like the main site header. The labels here
        are longer, so the size eases down on narrow phones rather than wrapping
-       and stranding the last tab on a row of its own. */
+       and stranding the last tab on a row of its own — and rather than needing
+       a sideways scroller, which the vertical-only lock would jam anyway. */
     .site-nav{
       margin:0;
       width:100%;
+      min-width:0;
       flex-wrap:nowrap;
       justify-content:space-between;
       gap:0 10px;
-      font-size:clamp(.7rem, 3.6vw, .875rem);
+      font-size:clamp(.66rem, 3.4vw, .875rem);
       line-height:1.5;
-      overflow-x:auto;
-      scrollbar-width:none;
     }
-    .site-nav::-webkit-scrollbar{ display:none; }
     .site-nav a{ padding:6px 0; white-space:nowrap; }
     .hero{
       min-height:0;
