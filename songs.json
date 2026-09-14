@@ -1,12 +1,20 @@
 [
   {
+    "title": "You Still Walked Me Down",
+    "occasion": "wedding",
+    "year": 2026,
+    "blurb": "A daughter's walk down the aisle, and the father who promised he'd be there for it — and was.",
+    "youtubeId": "NdHBikaJI0U",
+    "featured": false,
+    "spotlight": true
+  },
+  {
     "title": "Before the Doors Open",
     "occasion": "wedding",
     "year": 2026,
     "blurb": "A bride's song for the last quiet hour before the ceremony — coffee gone cold, the dress on the door, and a whole room filling up down the hall.",
     "youtubeId": "lLHM931NU4Y",
-    "featured": false,
-    "spotlight": true
+    "featured": false
   },
   {
     "title": "Borrowed Words",
