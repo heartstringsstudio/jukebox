@@ -1,12 +1,20 @@
 [
   {
+    "title": "Long Before You Loved Me",
+    "occasion": "wedding",
+    "year": 2026,
+    "blurb": "A wedding song for a blended family — two girls at the table, a September field, and a man who already knew how to love long before he got the chance to prove it.",
+    "youtubeId": "76tbW9GcAV4",
+    "featured": false,
+    "spotlight": true
+  },
+  {
     "title": "You Still Walked Me Down",
     "occasion": "wedding",
     "year": 2026,
     "blurb": "A daughter's walk down the aisle, and the father who promised he'd be there for it — and was.",
     "youtubeId": "NdHBikaJI0U",
-    "featured": false,
-    "spotlight": true
+    "featured": false
   },
   {
     "title": "Before the Doors Open",
