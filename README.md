@@ -203,7 +203,7 @@ the panel looks like what you're about to publish:
 | --- | --- |
 | ♪ This week's song | amber `#edb268` on dark ink |
 | ★ Featured | walnut `#774826` on cream |
-| Keep (control panel only) | bronze `#a17c52` |
+| Keep (control panel only) | bronze `#c49a66` on dark ink |
 
 The hero and closing backdrops load `assets/porch.webp` from the main site
 (same domain, different folder). If that file is ever renamed there, the
@@ -212,7 +212,9 @@ fixing the path when it happens.
 
 **If the main site gets restyled again, this page needs the same pass.** The
 tokens all live in the `:root` block at the top of `index.html`, with a
-matching set in `admin.html`.
+matching set in `admin.html`. The control panel sits on the same dark walnut
+shell as the live page (and the Story Room), with the main site's header
+lockup — it has no cream band, since there are no photo-print cards on it.
 
 ## How to deploy (one-time setup)
 
@@ -235,3 +237,12 @@ Every commit to `main` after that redeploys automatically.
 | `admin.html` | The control panel — add songs and set Keep/Retire without touching JSON |
 | `logo.png` | The studio mark in the page header, copied from the main site |
 | `favicon.png` | Browser-tab icon, copied from the main site |
+| `share-card.jpg` | The 1200×630 card a shared jukebox link renders (`og:image`) |
+| `tools/build-share-card.py` | Rebuilds `share-card.jpg` from the studio master mark |
+
+`logo.png` and `favicon.png` are straight copies of the main site's
+`assets/logo.png` and `favicon.png` — copy them again rather than re-cutting
+here, so all three sites frame the mark identically, and bump the `?v=` on every
+logo URL in `index.html` and `admin.html` in the same commit. `share-card.jpg`
+carries the mark too: rebuild it with the tool whenever the mark changes, and
+bump its `?v=` so Facebook and iMessage fetch it again.
