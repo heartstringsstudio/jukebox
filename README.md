@@ -72,6 +72,9 @@ The control panel above does this for you. To do it by hand instead:
    - **featured** — set `true` to pin the song to the top with a ★ ribbon.
      Keep it to two or three songs so "featured" still means something.
      Featured songs never rotate out (see below).
+   - **artwork** (optional) — a full URL to a 16:9 cover image. The card
+     shows it instead of YouTube's thumbnail, and falls back to YouTube if it
+     won't load. Leave it out and the card uses YouTube's thumbnail as before.
 
 3. Commit the change. Done — the site updates itself within a minute or two.
    No other file needs to change.

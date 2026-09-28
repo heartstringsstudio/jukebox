@@ -1062,19 +1062,27 @@
     thumb.setAttribute("aria-label", "Play “" + song.title + "”");
 
     var img = document.createElement("img");
-    img.src = "https://i.ytimg.com/vi/" + encodeURIComponent(song.youtubeId) + "/maxresdefault.jpg";
+    var yt = "https://i.ytimg.com/vi/" + encodeURIComponent(song.youtubeId) + "/";
+    // An optional "artwork" URL serves the full-resolution cover; if it fails to
+    // load, the card drops back to YouTube's thumbnails as usual.
+    img.src = song.artwork || yt + "maxresdefault.jpg";
     img.alt = "";
     img.loading = "lazy";
     img.addEventListener("error", function(){
       if(img.dataset.fellBack) return;
+      if(song.artwork && !img.dataset.triedYt){
+        img.dataset.triedYt = "1";
+        img.src = yt + "maxresdefault.jpg";
+        return;
+      }
       img.dataset.fellBack = "1";
-      img.src = "https://i.ytimg.com/vi/" + encodeURIComponent(song.youtubeId) + "/hqdefault.jpg";
+      img.src = yt + "hqdefault.jpg";
     });
     // maxresdefault can be a tiny placeholder instead of a 404 — treat that as missing too
     img.addEventListener("load", function(){
-      if(!img.dataset.fellBack && img.naturalWidth < 320){
+      if(!img.dataset.fellBack && img.src.indexOf(yt) === 0 && img.naturalWidth < 320){
         img.dataset.fellBack = "1";
-        img.src = "https://i.ytimg.com/vi/" + encodeURIComponent(song.youtubeId) + "/hqdefault.jpg";
+        img.src = yt + "hqdefault.jpg";
       }
     });
     thumb.appendChild(img);
