@@ -1,12 +1,20 @@
 [
   {
+    "title": "I Knew All the Words",
+    "occasion": "milestone",
+    "year": 2026,
+    "blurb": "Written from Tina's own words: a lifetime in the church pew, every verse by heart, and the day love asked her to finally learn the song.",
+    "youtubeId": "ky9qr3PdKr8",
+    "featured": false,
+    "spotlight": true
+  },
+  {
     "title": "Long Before You Loved Me",
     "occasion": "wedding",
     "year": 2026,
     "blurb": "A wedding song for a blended family — two girls at the table, a September field, and a man who already knew how to love long before he got the chance to prove it.",
     "youtubeId": "76tbW9GcAV4",
-    "featured": false,
-    "spotlight": true
+    "featured": false
   },
   {
     "title": "You Still Walked Me Down",
