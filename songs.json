@@ -1,13 +1,22 @@
 [
   {
+    "title": "You Left the Light On",
+    "occasion": "tribute",
+    "year": 2026,
+    "blurb": "A living tribute: the thank-you that usually waits too long, sung while they're still here to hear it.",
+    "youtubeId": "rZy83mk-3tw",
+    "artwork": "https://heartstringsstudio.github.io/heartstringsstudio/assets/you-left-the-light-on-youtube.webp",
+    "featured": false,
+    "spotlight": true
+  },
+  {
     "title": "I Knew All the Words",
     "occasion": "milestone",
     "year": 2026,
     "blurb": "Written from Tina's own words: a lifetime in the church pew, every verse by heart, and the day love asked her to finally learn the song.",
     "youtubeId": "ky9qr3PdKr8",
     "artwork": "https://heartstringsstudio.github.io/heartstringsstudio/assets/i-knew-all-the-words-youtube.webp",
-    "featured": false,
-    "spotlight": true
+    "featured": false
   },
   {
     "title": "Long Before You Loved Me",
