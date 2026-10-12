@@ -1,13 +1,22 @@
 [
   {
+    "title": "You Still Knock",
+    "occasion": "tribute",
+    "year": 2026,
+    "blurb": "A living tribute to the one who keeps showing up, the everyday love behind a familiar knock at the door.",
+    "youtubeId": "wel8YZL3RxE",
+    "artwork": "https://heartstringsstudio.github.io/heartstringsstudio/assets/you-still-knock-youtube.webp",
+    "featured": false,
+    "spotlight": true
+  },
+  {
     "title": "You Left the Light On",
     "occasion": "tribute",
     "year": 2026,
     "blurb": "A living tribute: the thank-you that usually waits too long, sung while they're still here to hear it.",
     "youtubeId": "rZy83mk-3tw",
     "artwork": "https://heartstringsstudio.github.io/heartstringsstudio/assets/you-left-the-light-on-youtube.webp",
-    "featured": false,
-    "spotlight": true
+    "featured": false
   },
   {
     "title": "I Knew All the Words",
