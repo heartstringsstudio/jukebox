@@ -1,5 +1,15 @@
 [
   {
+    "title": "I Never Had To Ask",
+    "occasion": "tribute",
+    "year": 2026,
+    "blurb": "A living tribute to the best friend who never had to be called: forty years of moving days, waiting rooms and showing up first.",
+    "youtubeId": "RTF8mwCbI48",
+    "artwork": "https://heartstringsstudio.github.io/heartstringsstudio/assets/i-never-had-to-ask-youtube.webp",
+    "featured": false,
+    "spotlight": true
+  },
+  {
     "title": "The Ones Who Run Toward Fire",
     "occasion": "tribute",
     "year": 2026,
@@ -14,8 +24,7 @@
     "blurb": "A living tribute to the one who keeps showing up, the everyday love behind a familiar knock at the door.",
     "youtubeId": "wel8YZL3RxE",
     "artwork": "https://heartstringsstudio.github.io/heartstringsstudio/assets/you-still-knock-youtube.webp",
-    "featured": false,
-    "spotlight": true
+    "featured": false
   },
   {
     "title": "You Left the Light On",
