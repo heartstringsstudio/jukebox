@@ -1,13 +1,21 @@
 [
   {
+    "title": "Rest Now, Chief",
+    "occasion": "memorial",
+    "year": 2026,
+    "blurb": "A memorial for a fire chief who answered thirty-nine years of night calls, and the town and family now carrying him the rest of the way.",
+    "youtubeId": "hzpk-CxvldM",
+    "featured": false,
+    "spotlight": true
+  },
+  {
     "title": "I Never Had To Ask",
     "occasion": "tribute",
     "year": 2026,
     "blurb": "A living tribute to the best friend who never had to be called: forty years of moving days, waiting rooms and showing up first.",
     "youtubeId": "RTF8mwCbI48",
     "artwork": "https://heartstringsstudio.github.io/heartstringsstudio/assets/i-never-had-to-ask-youtube.webp",
-    "featured": false,
-    "spotlight": true
+    "featured": false
   },
   {
     "title": "The Ones Who Run Toward Fire",
