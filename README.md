@@ -21,6 +21,11 @@ Top to bottom, so no song shows up twice:
    milestones D, tributes E, holidays F). The Memorials group carries the
    24-hour memorial delivery line, and so does every big memorial card.
 
+   Under **All**, the big cards above aren't repeated in the list. Pick a
+   category and the list shows the whole category: this week's song (♪) and
+   any Start here song (★) sit at the top of their group, so a family tapping
+   Celebrations of Life still finds Lenay's song there.
+
 Big cards play in place. Tracklist rows play in a **now-playing dock** pinned
 to the bottom of the screen, so the song keeps going while people scroll or
 change the filter. The dock has its own Close button and a small "Get one like

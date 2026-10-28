@@ -1094,6 +1094,8 @@
   var spotlightSong = null;
   var startSongs = [];  // the big "Start here" cards
   var listSongs = [];   // everything else, grouped by occasion, in display order
+  var pinnedSongs = []; // this week's + Start here, shown again only under a category filter
+  var rowKeys = new Map();
   var codes = new Map();
   var activeFilter = "all";
   // { kind:"card", card:<el>, song } or { kind:"dock", song } — one song at a time
@@ -1149,6 +1151,19 @@
         n[s.occasion] = (n[s.occasion] || 0) + 1;
         codes.set(s, (CODE_LETTERS[s.occasion] || "X") + n[s.occasion]);
       });
+
+      // Under "All" the big cards above aren't repeated. Under a category
+      // filter they are, at the top of their group, so the filter shows the
+      // whole category: ♪ for this week's song, ★ for a Start here song.
+      if(spotlightSong && onPage.indexOf(spotlightSong) !== -1){
+        pinnedSongs.push(spotlightSong);
+        codes.set(spotlightSong, "♪");
+      }
+      startSongs.forEach(function(s){
+        pinnedSongs.push(s);
+        codes.set(s, "★");
+      });
+      pinnedSongs.concat(listSongs).forEach(function(s, i){ rowKeys.set(s, "t" + i); });
 
       renderSpotlight();
       renderStartHere();
@@ -1207,7 +1222,7 @@
 
   function countFor(key){
     if(key === "all") return listSongs.length;
-    return listSongs.filter(function(s){ return s.occasion === key; }).length;
+    return pinnedSongs.concat(listSongs).filter(function(s){ return s.occasion === key; }).length;
   }
 
   function buildFilters(){
@@ -1254,8 +1269,8 @@
 
   function renderTracklist(){
     tracklist.innerHTML = "";
-    var shown = listSongs.filter(function(s){
-      return activeFilter === "all" || s.occasion === activeFilter;
+    var shown = activeFilter === "all" ? listSongs : pinnedSongs.concat(listSongs).filter(function(s){
+      return s.occasion === activeFilter;
     });
     if(shown.length === 0){
       var p = document.createElement("p");
@@ -1306,7 +1321,7 @@
     var code = codes.get(song);
     var li = document.createElement("li");
     li.className = "track occ-" + song.occasion;
-    li.dataset.code = code;
+    li.dataset.key = rowKeys.get(song);
 
     var codeEl = document.createElement("span");
     codeEl.className = "track-code";
@@ -1361,9 +1376,9 @@
   }
 
   function markPlayingTrack(){
-    var code = current && current.kind === "dock" ? codes.get(current.song) : null;
+    var playing = current && current.kind === "dock" ? rowKeys.get(current.song) : null;
     tracklist.querySelectorAll(".track").forEach(function(li){
-      var on = li.dataset.code === code;
+      var on = li.dataset.key === playing;
       li.classList.toggle("is-playing", on);
       var btn = li.querySelector(".track-btn");
       if(on) btn.setAttribute("aria-current", "true");
@@ -1550,6 +1565,7 @@
       return;
     }
     stopCurrent();
+    // position 0 = a big-card song replayed from a filtered list
     trackPlay(song, "tracklist", listSongs.indexOf(song) + 1);
 
     dock.innerHTML = "";
@@ -1641,7 +1657,7 @@
       markPlayingTrack();
       updateMobileCta();
       if(refocus){
-        var row = tracklist.querySelector('.track[data-code="' + codes.get(rec.song) + '"] .track-btn');
+        var row = tracklist.querySelector('.track[data-key="' + rowKeys.get(rec.song) + '"] .track-btn');
         if(row) row.focus();
       }
       return;
