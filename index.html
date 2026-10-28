@@ -319,17 +319,7 @@
   .pill .count{ font-size:.82em; opacity:.72; margin-left:5px; }
   .pill .lbl-short{ display:none; }
 
-  /* ---------- Grid ---------- */
-  .grid{
-    list-style:none;
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:45px 30px;
-    perspective:1400px;
-    padding-top:38px;
-  }
   .status-msg{
-    grid-column:1 / -1;
     text-align:center;
     font:italic 1.1rem/1.7 Georgia, serif;
     color:var(--band-muted);
@@ -349,8 +339,6 @@
   .card:hover{
     box-shadow:8px 15px 0 var(--card-edge), 15px 28px 35px #57351844;
   }
-  .grid .card:nth-child(3n+2){ margin-top:25px; margin-bottom:-25px; }
-  .grid .card.is-playing{ align-self:start; }
   .card-face, .player-face{ display:flex; flex-direction:column; flex:1; }
   .thumb-btn{
     position:relative;
@@ -406,12 +394,6 @@
     text-transform:uppercase;
     color:var(--band-label);
   }
-  .year{
-    font-size:.72rem;
-    letter-spacing:.1em;
-    color:#a2896a;
-    margin-left:auto;
-  }
   .card-title{
     margin-inline:12px;
     font:1.45rem/1.3 Georgia, serif;
@@ -424,6 +406,11 @@
     line-height:1.7;
     color:var(--band-muted);
     flex:1;
+  }
+  .card-note{
+    margin:12px 12px 0;
+    font:italic .9rem/1.55 Georgia, serif;
+    color:var(--band-accent);
   }
   .card-actions{
     display:flex;
@@ -561,6 +548,188 @@
     transition:border-color .3s;
   }
   .fallback-panel a:hover{ border-bottom-color:var(--band-accent); }
+  /* Slow-connection help: added under a player that hasn't loaded after 7s,
+     without removing it — a slow YouTube player often turns up after all. */
+  .player-help{
+    padding:12px 12px 0;
+    font-size:.85rem;
+    color:var(--band-muted);
+  }
+  .player-help a{
+    font-weight:700;
+    color:var(--band-accent);
+    border-bottom:1px solid var(--band-line);
+  }
+
+  /* ---------- Start here ---------- */
+  .start-here{ margin-bottom:96px; }
+  .start-grid{
+    list-style:none;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:45px 30px;
+    perspective:1400px;
+  }
+  .start-grid .card:nth-child(2){ margin-top:25px; margin-bottom:-25px; }
+  .start-grid .card.is-playing{ align-self:start; }
+
+  /* ---------- The whole jukebox (tracklist) ---------- */
+  .tracks-head{ margin-bottom:22px; }
+  .tracks-head .eyebrow{ margin-bottom:14px; }
+  .tracks-title{ font-size:clamp(2rem, 3.4vw, 3rem); }
+  .tracklist{ padding-top:30px; }
+  .track-group + .track-group{ margin-top:52px; }
+  .group-head{
+    display:flex;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:4px 14px;
+    padding-bottom:12px;
+    border-bottom:1px solid var(--band-line);
+  }
+  .group-head h3{
+    font:400 1.6rem/1.2 var(--serif);
+    letter-spacing:-.02em;
+    color:var(--band-ink);
+  }
+  .group-count{
+    font-size:.72rem;
+    font-weight:600;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--band-label);
+  }
+  .group-note{
+    width:100%;
+    font:italic .95rem/1.6 Georgia, serif;
+    color:var(--band-accent);
+  }
+  .tracks{
+    list-style:none;
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    column-gap:40px;
+  }
+  .track{
+    position:relative;
+    display:grid;
+    grid-template-columns:2.6rem 112px minmax(0, 1fr);
+    align-items:center;
+    gap:16px;
+    padding:14px 10px;
+    border-bottom:1px solid var(--band-line);
+    transition:background .25s;
+  }
+  .track:hover, .track.is-playing{ background:var(--card); }
+  .track-code{
+    display:flex;
+    justify-content:center;
+    font:1.1rem/1 var(--serif);
+    color:var(--band-accent);
+  }
+  .track .equalizer{ display:none; }
+  .track.is-playing .equalizer{ display:flex; }
+  .track.is-playing .code-num{ display:none; }
+  .track-thumb{
+    position:relative;
+    aspect-ratio:16 / 9;
+    background:#3c3025;
+    overflow:hidden;
+  }
+  .track-thumb img{ width:100%; height:100%; object-fit:cover; transition:transform .6s; }
+  .track:hover .track-thumb img{ transform:scale(1.08); }
+  .track-play{
+    position:absolute;
+    right:6px; bottom:6px;
+    display:grid;
+    place-items:center;
+    width:28px; height:28px;
+    padding-left:2px;
+    border-radius:50%;
+    background:#f2c185;
+    color:#342218;
+    box-shadow:0 3px 10px #0005;
+  }
+  /* The title is the button; its ::after stretches over the whole row so the
+     row is one big tap target, and carries the focus ring. */
+  .track-btn{
+    display:block;
+    width:100%;
+    background:none;
+    border:0;
+    padding:0;
+    text-align:left;
+    font:1.12rem/1.3 Georgia, serif;
+    color:var(--band-ink);
+    cursor:pointer;
+  }
+  .track-btn::after{ content:''; position:absolute; inset:0; }
+  .listen .track-btn:focus-visible{ outline:none; }
+  .track-btn:focus-visible::after{ outline:3px solid #8a5220; outline-offset:-3px; }
+  .track-blurb{
+    margin-top:4px;
+    font-size:.86rem;
+    line-height:1.5;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+
+  /* ---------- Now-playing dock ---------- */
+  /* Tracklist songs play here, so the music survives scrolling and filtering. */
+  .dock{
+    position:fixed;
+    z-index:40;
+    right:24px;
+    bottom:24px;
+    width:min(400px, calc(100% - 48px));
+    padding:10px;
+    background:var(--panel);
+    color:var(--ink);
+    border-radius:3px;
+    box-shadow:0 6px 0 var(--bg-deep), 0 24px 50px #000a;
+  }
+  .dock[hidden]{ display:none; }
+  .dock-bar{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 4px 2px;
+  }
+  .dock-title{
+    flex:1;
+    min-width:0;
+    font:1rem/1.3 Georgia, serif;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .dock-title small{
+    display:block;
+    font:600 .62rem/1.5 var(--sans);
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+  .dock-cta{
+    font-size:.78rem;
+    font-weight:700;
+    color:var(--accent);
+    white-space:nowrap;
+    border-bottom:1px solid var(--line);
+  }
+  .dock .stop-btn{ color:var(--muted); border-color:var(--line); }
+  .dock .stop-btn:hover, .dock .stop-btn:focus-visible{ color:var(--accent); border-color:var(--accent); }
+  .dock .player-help{ color:var(--muted); }
+  .dock .player-help a{ color:var(--accent); border-color:var(--line); }
+  .dock .fallback-panel{ padding:28px 16px; }
+  .dock .fallback-panel p{ color:var(--muted); }
+  .dock .fallback-panel a{ color:var(--accent); border-color:var(--line); }
+  body.dock-open{ padding-bottom:340px; }
+
+  /* ---------- Pinned Story Room button (phones) ---------- */
+  .mobile-cta{ display:none; }
 
   /* ---------- Closing ---------- */
   .closing{
@@ -623,13 +792,12 @@
     .wrap{ width:calc(100% - 64px); }
     .site-header{ padding-inline:32px; gap:20px; }
     .site-nav{ gap:20px; }
-    .grid{ gap:35px 22px; }
     .card-title{ font-size:1.25rem; }
   }
   @media (max-width:900px){
-    .grid{ grid-template-columns:repeat(2, 1fr); }
-    .grid .card:nth-child(3n+2){ margin:0; }
-    .grid .card:nth-child(2n){ margin-top:25px; margin-bottom:-25px; }
+    .start-grid{ gap:35px 18px; }
+    .tracks{ column-gap:24px; }
+    .track{ grid-template-columns:2.2rem 88px minmax(0, 1fr); gap:12px; padding-inline:6px; }
   }
   @media (max-width:760px){
     .wrap{ width:calc(100% - 40px); }
@@ -679,7 +847,6 @@
     .listen{ padding-block:56px 66px; }
     .section-head{ flex-direction:column; align-items:flex-start; gap:22px; margin-bottom:26px; }
     .just-because{ font-size:1rem; margin-bottom:20px; }
-    .grid{ padding-top:30px; gap:32px 18px; }
     .card{ padding:8px 8px 20px; box-shadow:4px 6px 0 var(--card-edge); }
     .card-meta{ margin-inline:6px; }
     .card-title{ margin-inline:6px; }
@@ -688,15 +855,49 @@
     .play{ width:36px; height:36px; bottom:8px; right:8px; }
     .play svg{ width:13px; height:15px; }
     .ribbon{ top:16px; right:8px; }
+    .start-here{ margin-bottom:64px; }
+    .start-grid{ grid-template-columns:1fr; gap:30px; }
+    .start-grid .card:nth-child(n){ margin:0; }
+    .tracks{ grid-template-columns:1fr; }
+    .track{ padding:12px 4px; }
+    .track-btn{ font-size:1.08rem; }
+    .dock{
+      left:8px; right:8px;
+      bottom:calc(8px + env(safe-area-inset-bottom));
+      width:auto;
+      padding:8px;
+    }
+    .dock-cta{ display:none; }
+    body.dock-open{ padding-bottom:calc((100vw - 32px) * .5625 + 100px); }
+    /* On phones the header's Story Room button is hidden, so a pinned one takes
+       over between the hero and the closing section (each has its own). */
+    .mobile-cta{
+      display:flex;
+      position:fixed;
+      z-index:30;
+      left:14px; right:14px;
+      bottom:calc(14px + env(safe-area-inset-bottom));
+      width:auto;
+      padding:15px 20px;
+      box-shadow:0 5px 0 var(--accent-shadow), 0 14px 30px #000a;
+      transform:translateY(calc(100% + 40px));
+      visibility:hidden;
+      transition:transform .45s cubic-bezier(.2,.8,.2,1), visibility 0s .45s;
+    }
+    .mobile-cta.show{
+      transform:none;
+      visibility:visible;
+      transition:transform .45s cubic-bezier(.2,.8,.2,1);
+    }
     .closing{ padding-block:70px; }
     .closing h2{ font-size:clamp(2.8rem, 13vw, 4.6rem); }
     .site-footer{ justify-content:flex-start; }
     .footer-links{ gap:18px; }
   }
   @media (max-width:520px){
-    .grid{ grid-template-columns:1fr; gap:30px; }
-    .grid .card:nth-child(n){ margin:0; }
     .card-title{ font-size:1.5rem; }
+    .track{ grid-template-columns:1.9rem 76px minmax(0, 1fr); gap:11px; }
+    .track-blurb{ font-size:.84rem; }
     .blurb{ font-size:1rem; }
     .pill{ padding:8px 13px; font-size:.8rem; }
     .pill .lbl-full{ display:none; }
@@ -707,7 +908,7 @@
     html{ scroll-behavior:auto; }
     *, *::before, *::after{ transition:none !important; animation:none !important; }
     .card:hover{ transform:none; }
-    .card:hover .thumb-btn img{ transform:none; }
+    .card:hover .thumb-btn img, .track:hover .track-thumb img{ transform:none; }
     .reveal{ opacity:1 !important; translate:none !important; }
     .equalizer span{ animation:none !important; height:55%; }
     .equalizer span:nth-child(2), .equalizer span:nth-child(4){ height:90%; }
@@ -769,14 +970,20 @@
       </div>
       <a class="text-link" href="https://heartstringsstudio.github.io/heartstringsstudio/">Back to the main site &#8599;</a>
     </div>
-    <p class="just-because">No occasion required &mdash; some of the best songs are just because.</p>
+    <div class="start-here" id="start-here" aria-labelledby="startTitle" hidden>
+      <p class="just-because" id="startTitle">Short on time? Start with these three.</p>
+      <ul class="start-grid" id="startGrid"></ul>
+    </div>
+    <div class="tracks-head" id="all-songs">
+      <p class="eyebrow">The whole jukebox</p>
+      <h2 class="tracks-title">Every other song, <em>one tap away.</em></h2>
+    </div>
     <div class="filter-wrap">
       <nav class="filter-bar" id="filterBar" aria-label="Filter songs by occasion"></nav>
     </div>
-    <h2 class="visually-hidden">Songs</h2>
-    <ul class="grid" id="grid" aria-live="polite">
-      <li class="status-msg" id="loadingMsg">Warming up the jukebox&hellip;</li>
-    </ul>
+    <div class="tracklist" id="tracklist" aria-live="polite">
+      <p class="status-msg" id="loadingMsg">Warming up the jukebox&hellip;</p>
+    </div>
   </div>
 </section>
 
@@ -791,6 +998,9 @@
 </section>
 
 </main>
+
+<aside class="dock" id="dock" aria-label="Now playing" hidden></aside>
+<a class="button mobile-cta" href="https://heartstringsstudio.github.io/storyroom/">Tell your story <span>&#8599;</span></a>
 
 <footer class="site-footer wrap">
   <a class="footer-brand" href="https://heartstringsstudio.github.io/heartstringsstudio/">HEARTSTRINGS STUDIO</a>
@@ -862,12 +1072,32 @@
     });
   }
 
-  var grid = document.getElementById("grid");
+  // Every row in the tracklist gets a jukebox selection code: a letter for the
+  // occasion and a number inside it (A1, A2, C1...). The letters never move, so
+  // a code stays put when the filter changes.
+  var CODE_LETTERS = {
+    "memorial":"A",
+    "celebration-of-life":"B",
+    "wedding":"C",
+    "milestone":"D",
+    "tribute":"E",
+    "holiday":"F"
+  };
+  var MEMORIAL_NOTE = "Memorial songs are always delivered within 24 hours, at no extra cost.";
+  var START_HERE_MAX = 3;
+  var STORY_ROOM = "https://heartstringsstudio.github.io/storyroom/";
+
+  var tracklist = document.getElementById("tracklist");
   var filterBar = document.getElementById("filterBar");
-  var songs = [];
+  var dock = document.getElementById("dock");
+  var mobileCta = document.querySelector(".mobile-cta");
   var spotlightSong = null;
+  var startSongs = [];  // the big "Start here" cards
+  var listSongs = [];   // everything else, grouped by occasion, in display order
+  var codes = new Map();
   var activeFilter = "all";
-  var current = null; // { card: <li>, song: {...} }
+  // { kind:"card", card:<el>, song } or { kind:"dock", song } — one song at a time
+  var current = null;
 
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var revealObserver = null;
@@ -882,29 +1112,55 @@
     }, { rootMargin: "0px 0px -8% 0px" });
   }
 
+  function occasionRank(key){
+    for(var i = 1; i < OCCASIONS.length; i++){ if(OCCASIONS[i].key === key) return i; }
+    return OCCASIONS.length;
+  }
+  function occasionLabel(key){
+    for(var i = 1; i < OCCASIONS.length; i++){ if(OCCASIONS[i].key === key) return OCCASIONS[i].label; }
+    return BADGE_LABELS[key] || key;
+  }
+
   fetch("songs.json", { cache: "no-cache" })
     .then(function(r){ if(!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
     .then(function(data){
       // This week's song always shows up top, rotation or not.
       spotlightSong = data.filter(function(s){ return s.spotlight === true; })[0] || null;
       // "spotlightOnly" songs live at the top of the page only — they stay out of
-      // the grid below and out of the filter counts.
+      // the rotation and out of the filter counts.
       var eligible = data.filter(function(s){ return s.spotlightOnly !== true; });
-      // Rotate first (that reads file order, which is newest-first), then hoist
-      // the featured songs to the top for display.
-      songs = applyRotation(eligible).sort(function(a, b){
-        return (b.featured === true) - (a.featured === true);
+      var onPage = applyRotation(eligible);
+
+      // Start here: the first three featured songs in the file, not counting
+      // this week's song, which already has the spotlight.
+      startSongs = onPage.filter(function(s){
+        return s.featured === true && s !== spotlightSong;
+      }).slice(0, START_HERE_MAX);
+
+      // The tracklist is everything else, so no song appears twice on the page.
+      // Grouped by occasion; file order (newest first) inside each group.
+      listSongs = onPage
+        .filter(function(s){ return s !== spotlightSong && startSongs.indexOf(s) === -1; })
+        .map(function(s, i){ return { s:s, i:i }; })
+        .sort(function(a, b){ return occasionRank(a.s.occasion) - occasionRank(b.s.occasion) || a.i - b.i; })
+        .map(function(x){ return x.s; });
+      var n = {};
+      listSongs.forEach(function(s){
+        n[s.occasion] = (n[s.occasion] || 0) + 1;
+        codes.set(s, (CODE_LETTERS[s.occasion] || "X") + n[s.occasion]);
       });
+
       renderSpotlight();
+      renderStartHere();
       buildFilters();
-      renderGrid();
+      renderTracklist();
     })
     .catch(function(){
-      grid.innerHTML = "";
-      var li = document.createElement("li");
-      li.className = "status-msg";
-      li.textContent = "We couldn't load the jukebox just now. Please refresh, or write to us at heartstringsstudiowv@gmail.com and we'll send you samples directly.";
-      grid.appendChild(li);
+      tracklist.innerHTML = "";
+      var p = document.createElement("p");
+      p.className = "status-msg";
+      p.textContent = "We couldn't load the jukebox just now. Please refresh, or write to us at heartstringsstudiowv@gmail.com and we'll send you samples directly.";
+      tracklist.appendChild(p);
     });
 
   function renderSpotlight(){
@@ -913,6 +1169,8 @@
 
     var card = document.createElement("div");
     card.className = "card occ-" + song.occasion;
+    card.dataset.placement = "spotlight";
+    card.dataset.position = "1";
     var ribbon = document.createElement("span");
     ribbon.className = "ribbon";
     ribbon.textContent = "♪ New This Week";
@@ -925,9 +1183,31 @@
     if(navLink) navLink.hidden = false;
   }
 
+  function renderStartHere(){
+    if(startSongs.length === 0) return;
+    var ul = document.getElementById("startGrid");
+    startSongs.forEach(function(song, i){
+      var li = document.createElement("li");
+      li.className = "card featured occ-" + song.occasion;
+      li.dataset.placement = "start_here";
+      li.dataset.position = String(i + 1);
+      var ribbon = document.createElement("span");
+      ribbon.className = "ribbon";
+      ribbon.textContent = "★ Featured";
+      li.appendChild(ribbon);
+      li.appendChild(buildFace(song));
+      if(revealObserver){
+        li.classList.add("reveal");
+        revealObserver.observe(li);
+      }
+      ul.appendChild(li);
+    });
+    document.getElementById("start-here").hidden = false;
+  }
+
   function countFor(key){
-    if(key === "all") return songs.length;
-    return songs.filter(function(s){ return s.occasion === key; }).length;
+    if(key === "all") return listSongs.length;
+    return listSongs.filter(function(s){ return s.occasion === key; }).length;
   }
 
   function buildFilters(){
@@ -962,47 +1242,133 @@
         filterBar.querySelectorAll(".pill").forEach(function(p){
           p.setAttribute("aria-pressed", p.dataset.filter === activeFilter ? "true" : "false");
         });
-        renderGrid();
+        if(typeof gtag === "function"){
+          gtag("event", "jukebox_filter", { event_category: "engagement", occasion: o.key });
+        }
+        // The dock lives outside the list, so filtering never stops the music.
+        renderTracklist();
       });
       filterBar.appendChild(btn);
     });
   }
 
-  function renderGrid(){
-    stopCurrent();
-    grid.innerHTML = "";
-    var shown = songs.filter(function(s){
+  function renderTracklist(){
+    tracklist.innerHTML = "";
+    var shown = listSongs.filter(function(s){
       return activeFilter === "all" || s.occasion === activeFilter;
     });
     if(shown.length === 0){
-      var li = document.createElement("li");
-      li.className = "status-msg";
-      li.textContent = "No songs in this category yet — but yours could be the first.";
-      grid.appendChild(li);
+      var p = document.createElement("p");
+      p.className = "status-msg";
+      p.textContent = "No songs in this category yet — but yours could be the first.";
+      tracklist.appendChild(p);
       return;
     }
+
+    var group = null, ol = null, lastOcc = null;
     shown.forEach(function(song){
-      grid.appendChild(buildCard(song));
+      if(song.occasion !== lastOcc){
+        lastOcc = song.occasion;
+        var inGroup = shown.filter(function(s){ return s.occasion === lastOcc; }).length;
+        group = document.createElement("section");
+        group.className = "track-group";
+        group.setAttribute("aria-labelledby", "group-" + lastOcc);
+
+        var head = document.createElement("div");
+        head.className = "group-head";
+        var h3 = document.createElement("h3");
+        h3.id = "group-" + lastOcc;
+        h3.textContent = occasionLabel(lastOcc);
+        head.appendChild(h3);
+        var count = document.createElement("span");
+        count.className = "group-count";
+        count.textContent = inGroup + (inGroup === 1 ? " song" : " songs");
+        head.appendChild(count);
+        if(lastOcc === "memorial"){
+          var note = document.createElement("p");
+          note.className = "group-note";
+          note.textContent = MEMORIAL_NOTE;
+          head.appendChild(note);
+        }
+        group.appendChild(head);
+
+        ol = document.createElement("ol");
+        ol.className = "tracks";
+        group.appendChild(ol);
+        tracklist.appendChild(group);
+      }
+      ol.appendChild(buildTrack(song));
     });
+    markPlayingTrack();
   }
 
-  function buildCard(song){
+  function buildTrack(song){
+    var code = codes.get(song);
     var li = document.createElement("li");
-    li.className = "card occ-" + song.occasion + (song.featured ? " featured" : "");
+    li.className = "track occ-" + song.occasion;
+    li.dataset.code = code;
 
-    if(song.featured){
-      var ribbon = document.createElement("span");
-      ribbon.className = "ribbon";
-      ribbon.textContent = "★ Featured";
-      li.appendChild(ribbon);
-    }
-    li.appendChild(buildFace(song));
+    var codeEl = document.createElement("span");
+    codeEl.className = "track-code";
+    codeEl.setAttribute("aria-hidden", "true");
+    var num = document.createElement("span");
+    num.className = "code-num";
+    num.textContent = code;
+    codeEl.appendChild(num);
+    codeEl.appendChild(buildEqualizer());
+    li.appendChild(codeEl);
 
-    if(revealObserver){
-      li.classList.add("reveal");
-      revealObserver.observe(li);
-    }
+    var thumb = document.createElement("span");
+    thumb.className = "track-thumb";
+    thumb.setAttribute("aria-hidden", "true");
+    var img = document.createElement("img");
+    var yt = "https://i.ytimg.com/vi/" + encodeURIComponent(song.youtubeId) + "/mqdefault.jpg";
+    img.src = song.artwork || yt;
+    img.alt = "";
+    img.loading = "lazy";
+    img.width = 112;
+    img.height = 63;
+    img.addEventListener("error", function(){
+      if(img.dataset.fellBack){ img.hidden = true; return; }
+      img.dataset.fellBack = "1";
+      img.src = yt;
+    });
+    thumb.appendChild(img);
+    var play = document.createElement("span");
+    play.className = "track-play";
+    play.innerHTML = '<svg width="10" height="12" viewBox="0 0 14 16" fill="currentColor"><path d="M1 1.6c0-1.2 1.3-1.9 2.3-1.3l10 6.4c.9.6.9 2 0 2.6l-10 6.4c-1 .6-2.3-.1-2.3-1.3V1.6z"/></svg>';
+    thumb.appendChild(play);
+    li.appendChild(thumb);
+
+    var text = document.createElement("div");
+    text.className = "track-text";
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "track-btn";
+    var verb = document.createElement("span");
+    verb.className = "visually-hidden";
+    verb.textContent = "Play ";
+    btn.appendChild(verb);
+    btn.appendChild(document.createTextNode(song.title));
+    btn.addEventListener("click", function(){ playInDock(song); });
+    text.appendChild(btn);
+    var blurb = document.createElement("p");
+    blurb.className = "track-blurb";
+    blurb.textContent = song.blurb;
+    text.appendChild(blurb);
+    li.appendChild(text);
     return li;
+  }
+
+  function markPlayingTrack(){
+    var code = current && current.kind === "dock" ? codes.get(current.song) : null;
+    tracklist.querySelectorAll(".track").forEach(function(li){
+      var on = li.dataset.code === code;
+      li.classList.toggle("is-playing", on);
+      var btn = li.querySelector(".track-btn");
+      if(on) btn.setAttribute("aria-current", "true");
+      else btn.removeAttribute("aria-current");
+    });
   }
 
   function buildFace(song){
@@ -1019,11 +1385,7 @@
     var badge = document.createElement("span");
     badge.className = "badge";
     badge.textContent = BADGE_LABELS[song.occasion] || song.occasion;
-    var year = document.createElement("span");
-    year.className = "year";
-    year.textContent = song.year;
     meta.appendChild(badge);
-    meta.appendChild(year);
     body.appendChild(meta);
 
     var title = document.createElement("h3");
@@ -1035,6 +1397,13 @@
     blurb.className = "blurb";
     blurb.textContent = song.blurb;
     body.appendChild(blurb);
+
+    if(song.occasion === "memorial"){
+      var note = document.createElement("p");
+      note.className = "card-note";
+      note.textContent = MEMORIAL_NOTE;
+      body.appendChild(note);
+    }
 
     var actions = document.createElement("div");
     actions.className = "card-actions";
@@ -1104,80 +1473,146 @@
     return thumb;
   }
 
+  function trackPlay(song, placement, position){
+    if(typeof gtag !== "function") return;
+    gtag("event", "song_play", {
+      event_category: "engagement",
+      event_label: song.title,
+      occasion: song.occasion,
+      placement: placement,   // spotlight | start_here | tracklist
+      position: position      // 1-based, in the order the "All" view shows
+    });
+  }
+
+  // Builds the YouTube player (or the offline fallback) into `container`. Both
+  // the cards and the dock use it. If the frame hasn't loaded after 7 seconds,
+  // a YouTube link goes in under it — the player stays, since a slow one often
+  // turns up after all — and the link leaves again once the frame loads.
+  function fillPlayer(container, song, stillCurrent){
+    if(!navigator.onLine){
+      container.appendChild(buildFallback(song));
+      return;
+    }
+    var frame = document.createElement("div");
+    frame.className = "player-frame";
+    var iframe = document.createElement("iframe");
+    iframe.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(song.youtubeId) + "?autoplay=1&rel=0";
+    iframe.title = "Now playing: " + song.title;
+    iframe.allow = "autoplay; encrypted-media; picture-in-picture";
+    iframe.allowFullscreen = true;
+    iframe.loading = "eager";
+    var loaded = false;
+    var help = null;
+    iframe.addEventListener("load", function(){
+      loaded = true;
+      if(help){ help.remove(); help = null; }
+    });
+    setTimeout(function(){
+      if(loaded || !stillCurrent()) return;
+      help = document.createElement("p");
+      help.className = "player-help";
+      help.appendChild(document.createTextNode("Slow connection? "));
+      var a = document.createElement("a");
+      a.href = "https://youtu.be/" + encodeURIComponent(song.youtubeId);
+      a.textContent = "Open on YouTube →";
+      help.appendChild(a);
+      frame.parentNode.insertBefore(help, frame.nextSibling);
+    }, 7000);
+    frame.appendChild(iframe);
+    container.appendChild(frame);
+  }
+
   function startPlayback(card, song){
     if(current && current.card === card) return;
     stopCurrent();
-
-    if(typeof gtag === "function"){
-      gtag("event", "song_play", {
-        event_category: "engagement",
-        event_label: song.title,
-        occasion: song.occasion
-      });
-    }
+    trackPlay(song, card.dataset.placement, Number(card.dataset.position));
 
     var faceEl = card.querySelector(".card-face");
     if(faceEl) faceEl.remove();
 
     var player = document.createElement("div");
     player.className = "player-face";
-
-    if(!navigator.onLine){
-      player.appendChild(buildFallback(song));
-    } else {
-      var frame = document.createElement("div");
-      frame.className = "player-frame";
-      var iframe = document.createElement("iframe");
-      iframe.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(song.youtubeId) + "?autoplay=1&rel=0";
-      iframe.title = "Now playing: " + song.title;
-      iframe.allow = "autoplay; encrypted-media; picture-in-picture";
-      iframe.allowFullscreen = true;
-      iframe.loading = "eager";
-      var loaded = false;
-      iframe.addEventListener("load", function(){ loaded = true; });
-      setTimeout(function(){
-        if(!loaded && current && current.card === card){
-          player.innerHTML = "";
-          player.appendChild(buildFallback(song));
-          player.appendChild(buildPlayerBar(card, song, true));
-        }
-      }, 7000);
-      frame.appendChild(iframe);
-      player.appendChild(frame);
-      player.appendChild(buildPlayerBar(card, song, false));
-    }
+    var rec = { kind: "card", card: card, song: song };
+    current = rec;
+    fillPlayer(player, song, function(){ return current === rec; });
+    player.appendChild(buildPlayerBar(song, !navigator.onLine));
 
     card.appendChild(player);
     card.classList.add("is-playing");
-    current = { card: card, song: song };
 
     var stopBtn = player.querySelector(".stop-btn");
     if(stopBtn) stopBtn.focus();
   }
 
-  function buildPlayerBar(card, song, minimal){
-    var bar = document.createElement("div");
-    bar.className = "player-bar";
-
-    if(!minimal){
-      var eq = document.createElement("span");
-      eq.className = "equalizer";
-      eq.setAttribute("aria-hidden", "true");
-      eq.innerHTML = "<span></span><span></span><span></span><span></span>";
-      bar.appendChild(eq);
-      var t = document.createElement("span");
-      t.className = "player-title";
-      t.textContent = song.title;
-      bar.appendChild(t);
+  function playInDock(song){
+    if(current && current.kind === "dock" && current.song === song){
+      dock.querySelector(".stop-btn").focus();
+      return;
     }
+    stopCurrent();
+    trackPlay(song, "tracklist", listSongs.indexOf(song) + 1);
 
+    dock.innerHTML = "";
+    var rec = { kind: "dock", song: song };
+    current = rec;
+    fillPlayer(dock, song, function(){ return current === rec; });
+
+    var bar = document.createElement("div");
+    bar.className = "dock-bar";
+    if(navigator.onLine) bar.appendChild(buildEqualizer());
+    var title = document.createElement("span");
+    title.className = "dock-title";
+    var small = document.createElement("small");
+    small.textContent = "Now playing · " + codes.get(song);
+    title.appendChild(small);
+    title.appendChild(document.createTextNode(song.title));
+    bar.appendChild(title);
+    var cta = document.createElement("a");
+    cta.className = "dock-cta";
+    cta.href = STORY_ROOM;
+    cta.textContent = "Get one like this ↗";
+    bar.appendChild(cta);
+    bar.appendChild(buildStopButton(song));
+    dock.appendChild(bar);
+
+    dock.hidden = false;
+    document.body.classList.add("dock-open");
+    markPlayingTrack();
+    updateMobileCta();
+    dock.querySelector(".stop-btn").focus();
+  }
+
+  function buildEqualizer(){
+    var eq = document.createElement("span");
+    eq.className = "equalizer";
+    eq.setAttribute("aria-hidden", "true");
+    eq.innerHTML = "<span></span><span></span><span></span><span></span>";
+    return eq;
+  }
+
+  function buildStopButton(song){
     var stop = document.createElement("button");
     stop.type = "button";
     stop.className = "stop-btn";
     stop.textContent = "✕ Close";
     stop.setAttribute("aria-label", "Stop playing “" + song.title + "”");
     stop.addEventListener("click", function(){ stopCurrent(true); });
-    bar.appendChild(stop);
+    return stop;
+  }
+
+  function buildPlayerBar(song, minimal){
+    var bar = document.createElement("div");
+    bar.className = "player-bar";
+
+    if(!minimal){
+      bar.appendChild(buildEqualizer());
+      var t = document.createElement("span");
+      t.className = "player-title";
+      t.textContent = song.title;
+      bar.appendChild(t);
+    }
+
+    bar.appendChild(buildStopButton(song));
     return bar;
   }
 
@@ -1196,16 +1631,58 @@
 
   function stopCurrent(refocus){
     if(!current) return;
-    var card = current.card;
-    var song = current.song;
+    var rec = current;
     current = null;
+
+    if(rec.kind === "dock"){
+      dock.innerHTML = "";
+      dock.hidden = true;
+      document.body.classList.remove("dock-open");
+      markPlayingTrack();
+      updateMobileCta();
+      if(refocus){
+        var row = tracklist.querySelector('.track[data-code="' + codes.get(rec.song) + '"] .track-btn');
+        if(row) row.focus();
+      }
+      return;
+    }
+
+    var card = rec.card;
     var player = card.querySelector(".player-face");
     if(player) player.remove();
     card.classList.remove("is-playing");
-    card.appendChild(buildFace(song));
+    card.appendChild(buildFace(rec.song));
     if(refocus){
       var btn = card.querySelector(".play-btn");
       if(btn) btn.focus();
+    }
+  }
+
+  /* On phones the header's Story Room button is hidden, so a pinned one takes
+     over between the hero and the closing section (each has its own). It
+     steps aside while the dock is open, since the dock carries its own. */
+  var ctaInView = new Set();
+  var ctaWatching = false;
+  function updateMobileCta(){
+    if(!mobileCta || !ctaWatching) return;
+    var show = ctaInView.size === 0 && !(current && current.kind === "dock");
+    mobileCta.classList.toggle("show", show);
+    mobileCta.inert = !show;
+  }
+  if(mobileCta){
+    mobileCta.inert = true;
+    if("IntersectionObserver" in window){
+      ctaWatching = true;
+      var ctaObserver = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting) ctaInView.add(entry.target);
+          else ctaInView.delete(entry.target);
+        });
+        updateMobileCta();
+      });
+      document.querySelectorAll(".hero, .closing, .site-footer").forEach(function(el){
+        ctaObserver.observe(el);
+      });
     }
   }
 
