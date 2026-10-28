@@ -348,13 +348,13 @@
     note.appendChild(b);
     note.appendChild(document.createTextNode(
       feat.length === 0
-        ? " — nothing is pinned to the top of the grid right now."
+        ? " — the Start here row is empty right now."
         : ": " + feat.map(function(x){ return x.title; }).join(", ") + ". "
     ));
     if(feat.length > 0){
       note.appendChild(document.createTextNode(
-        many ? "That's a lot — when everything is starred, nothing stands out. Three or fewer keeps ★ meaningful."
-             : "They sit at the top of the grid with a ★ ribbon, and never rotate out."
+        many ? "That's a lot — only the first three in the file make the Start here row; the rest sit in the list like any other song."
+             : "The first three (not counting this week's song) are the big Start here cards, and featured songs never rotate out."
       ));
     }
     frag.appendChild(note);
@@ -399,7 +399,7 @@
     var toggles = h("div", "s-toggles");
     toggles.style.marginBottom = "14px";
     toggles.appendChild(formChip("f-spot", "♪ This week's song", "week"));
-    toggles.appendChild(formChip("f-spotonly", "Spotlight only (not in the grid)", "week"));
+    toggles.appendChild(formChip("f-spotonly", "Spotlight only (not in the list)", "week"));
     toggles.appendChild(formChip("f-featured", "★ Featured", "feature"));
     p.appendChild(toggles);
 
@@ -497,7 +497,7 @@
     var leg = h("div", "legend");
     [
       ["📌 Keep", "Locks the song on the page. It never rotates out, however old it gets."],
-      ["★ Featured", "Pins it to the top of the grid with a ★ ribbon. Kept automatically. Best used on two or three."],
+      ["★ Featured", "Makes it one of the three big Start here cards, with a ★ ribbon. Kept automatically. Best used on three: one memorial, one wedding, one celebration."],
       ["♪ This week", "The Just Released card at the very top. Only one song at a time — setting it clears the old one."],
       ["Retire", "Takes it off the page without deleting it. Stays in the file; one tap brings it back."]
     ].forEach(function(pair){
@@ -545,7 +545,7 @@
                    : "Never rotates out"));
     tog.appendChild(toggle("feature", "★ Featured", s.featured === true, function(){
       s.featured = !(s.featured === true);
-    }, "Pins it to the top of the grid with a ★ ribbon"));
+    }, "Makes it a big Start here card with a ★ ribbon"));
     tog.appendChild(toggle("retire", "Retire", s.retired === true, function(){
       if(s.retired === true) delete s.retired; else s.retired = true;
     }, "Off the page, but kept in the file"));

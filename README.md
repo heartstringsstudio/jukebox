@@ -7,6 +7,40 @@ Pure HTML/CSS/vanilla JS — no build step, no frameworks. Songs load from
 **Live site:** https://heartstringsstudio.github.io/jukebox/
 **Share link:** https://tinyurl.com/hsjukebox (use this one on Facebook and in messages)
 
+## How the page is laid out
+
+Top to bottom, so no song shows up twice:
+
+1. **This week's song** — one big card (`"spotlight": true`).
+2. **Start here** — three big cards: the first three `"featured": true` songs
+   in the file, not counting this week's. Aim for one memorial, one wedding and
+   one celebration of life. The row hides itself if nothing is featured.
+3. **The whole jukebox** — every other song on the page, as a compact
+   tracklist grouped by occasion, with the filter pills on top. Each row has a
+   jukebox code (memorials are A1, A2…, celebrations of life B, weddings C,
+   milestones D, tributes E, holidays F). The Memorials group carries the
+   24-hour memorial delivery line, and so does every big memorial card.
+
+Big cards play in place. Tracklist rows play in a **now-playing dock** pinned
+to the bottom of the screen, so the song keeps going while people scroll or
+change the filter. The dock has its own Close button and a small "Get one like
+this" link to the Story Room. Escape stops whatever is playing.
+
+If a player hasn't loaded after 7 seconds, an "Open on YouTube" link appears
+under it and the player stays put. Offline, the card or dock shows the YouTube
+link instead.
+
+On phones the header's "Tell your story" button is hidden, so a pinned one
+slides up once the hero is off screen. It steps aside over the closing section,
+the footer and while the dock is open.
+
+**Analytics:** `song_play` now carries `placement` (`spotlight`, `start_here`
+or `tracklist`) and `position` (1-based, in the order the All view shows), so
+you can see in GA4 how far down people actually play. Filter taps send
+`jukebox_filter` with the `occasion`. To read `placement` and `position` in
+reports, register them once as custom dimensions (Admin → Custom definitions,
+event scope).
+
 ## The Control Panel (the easy way)
 
 **https://heartstringsstudio.github.io/jukebox/admin.html**
@@ -69,9 +103,10 @@ The control panel above does this for you. To do it by hand instead:
      `wedding`, `milestone`, `tribute`, `holiday`
    - **youtubeId** is just the ID, not the full link. For
      `https://youtu.be/qdAYOA_1ok0` the ID is `qdAYOA_1ok0`.
-   - **featured** — set `true` to pin the song to the top with a ★ ribbon.
-     Keep it to two or three songs so "featured" still means something.
-     Featured songs never rotate out (see below).
+   - **featured** — set `true` to make it one of the three big **Start here**
+     cards, with a ★ ribbon. Only the first three in the file make that row;
+     any more sit in the tracklist like other songs. Featured songs never
+     rotate out (see below).
    - **artwork** (optional) — a full URL to a 16:9 cover image. The card
      shows it instead of YouTube's thumbnail, and falls back to YouTube if it
      won't load. Leave it out and the card uses YouTube's thumbnail as before.
@@ -123,7 +158,7 @@ but then a new memorial won't appear on the page until you unmark one.
 ### Benching a song on purpose
 
 To pull a song off the page without deleting it, add `"retired": true`. It
-disappears from the grid and from the filter counts, and stays in the file.
+disappears from the page and from the filter counts, and stays in the file.
 Delete the line to bring it back.
 
 ### Changing the cap
@@ -156,13 +191,15 @@ To change it each week:
    `false`).
 
 Exactly one song should have `"spotlight": true` at a time — if none does,
-the section simply hides itself. The spotlight song also appears in its
-regular category below, so nothing else needs to change.
+the section simply hides itself. The spotlight song is left out of the
+tracklist below so it isn't on the page twice, but it still holds its slot in
+its category's rotation. Next week, when it loses the flag, it drops into the
+list on its own.
 
 ### Spotlight without adding it to the jukebox
 
-If you want a song at the top **only** — no card in the grid below, and no
-effect on the filter counts — add `"spotlightOnly": true` alongside
+If you want a song at the top **only** — no effect on its category's
+rotation slots — add `"spotlightOnly": true` alongside
 `"spotlight": true`:
 
 ```json
@@ -178,9 +215,10 @@ effect on the filter counts — add `"spotlightOnly": true` alongside
 }
 ```
 
-The entry still needs `occasion`, `year`, and `blurb` — the spotlight card
-shows all three. When you're ready to move it into the rotation, delete the
-`"spotlightOnly"` line.
+The entry still needs `occasion`, `year`, and `blurb`. The spotlight card
+shows the occasion and blurb; the page no longer prints the year, but keep it
+in the file for the record. When you're ready to move it into the rotation,
+delete the `"spotlightOnly"` line.
 
 **Tip:** if the page ever shows "We couldn't load the jukebox," the last edit
 probably broke the JSON (usually a missing or extra comma). Paste the file into
