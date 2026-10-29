@@ -29,13 +29,13 @@ Top to bottom, so no song shows up twice:
 Big cards play in place. Tracklist rows play in a **now-playing dock** pinned
 to the bottom of the screen, so the song keeps going while people scroll or
 change the filter. The dock has its own Close button and a small "Get one like
-this" link to the Story Room. Escape stops whatever is playing.
+this" link that opens a text to Tim (`sms:+13046771113`). Escape stops whatever is playing.
 
 If a player hasn't loaded after 7 seconds, an "Open on YouTube" link appears
 under it and the player stays put. Offline, the card or dock shows the YouTube
 link instead.
 
-On phones the header's "Tell your story" button is hidden, so a pinned one
+On phones the header's "Text Tim" button is hidden, so a pinned one
 slides up once the hero is off screen. It steps aside over the closing section,
 the footer and while the dock is open.
 
@@ -45,6 +45,17 @@ you can see in GA4 how far down people actually play. Filter taps send
 `jukebox_filter` with the `occasion`. To read `placement` and `position` in
 reports, register them once as custom dimensions (Admin → Custom definitions,
 event scope).
+
+## Commission path (Text Tim first, Story Room second)
+
+This page follows the main site's rule. Every commission button opens a text to
+Tim: `sms:+13046771113`, "Text Tim" in the header and "Text Tim about your song"
+in the hero, the closing section, the pinned phone button and the dock. The
+closing section adds "Text, call or email, whatever’s easiest. Tim answers
+himself, usually same day.", Call 304-677-1113 · Email Tim, and the Story Room
+as the quiet second option ("Rather write it out?"). Clicks send `sms_click` /
+`tel_click`, plus `cta_click` and `generate_lead`, each with a `method`
+(`sms`, `tel`, `email`, `storyroom`), the same as the main site.
 
 ## The Control Panel (the easy way)
 
