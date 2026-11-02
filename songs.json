@@ -22,8 +22,7 @@
     "blurb": "A memorial for a fire chief who answered thirty-nine years of night calls, and the town and family now carrying him the rest of the way.",
     "youtubeId": "hzpk-CxvldM",
     "artwork": "https://heartstringsstudio.github.io/heartstringsstudio/assets/rest-now-chief-youtube.webp",
-    "featured": false,
-    "spotlight": true
+    "featured": false
   },
   {
     "title": "I Never Had To Ask",
@@ -235,7 +234,10 @@
     "year": 2025,
     "blurb": "A dark-country military tribute for the ones who serve far from home — and the ones who wait for them.",
     "youtubeId": "jmSfTesTUcw",
-    "featured": false
+    "featured": false,
+    "spotlight": true,
+    "retired": true,
+    "note": "Rerun spotlight, week of 2026-11-02. Keep retired: true when the spotlight moves next week, so it does not go back into the rotation."
   },
   {
     "title": "We Love You, Mrs. Gaynor",
