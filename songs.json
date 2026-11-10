@@ -1,5 +1,14 @@
 [
   {
+    "title": "Grandpa's Footlocker",
+    "occasion": "tribute",
+    "year": 2026,
+    "blurb": "A Veterans Day tribute to the stories a grandfather kept folded away in an old Army footlocker, and the grandchild who finally opens it.",
+    "youtubeId": "6nAH7Mwp6UE",
+    "featured": false,
+    "spotlight": true
+  },
+  {
     "title": "When The Season Begins",
     "occasion": "holiday",
     "year": 2026,
@@ -235,9 +244,7 @@
     "blurb": "A dark-country military tribute for the ones who serve far from home — and the ones who wait for them.",
     "youtubeId": "jmSfTesTUcw",
     "featured": false,
-    "spotlight": true,
-    "retired": true,
-    "note": "Rerun spotlight, week of 2026-11-02. Keep retired: true when the spotlight moves next week, so it does not go back into the rotation."
+    "retired": true
   },
   {
     "title": "We Love You, Mrs. Gaynor",
