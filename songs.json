@@ -1,12 +1,21 @@
 [
   {
+    "title": "Heavy",
+    "occasion": "tribute",
+    "year": 2026,
+    "blurb": "A Veterans Day song for the ones who came home still carrying something nobody asks about, and for the buddy who calls at 2 a.m. and just says, “I know, man.”",
+    "youtubeId": "-e2ih0HQsik",
+    "artwork": "https://heartstringsstudio.github.io/heartstringsstudio/assets/heavy-youtube.webp",
+    "featured": false,
+    "spotlight": true
+  },
+  {
     "title": "Grandpa's Footlocker",
     "occasion": "tribute",
     "year": 2026,
     "blurb": "A Veterans Day tribute to the stories a grandfather kept folded away in an old Army footlocker, and the grandchild who finally opens it.",
     "youtubeId": "6nAH7Mwp6UE",
-    "featured": false,
-    "spotlight": true
+    "featured": false
   },
   {
     "title": "When The Season Begins",
