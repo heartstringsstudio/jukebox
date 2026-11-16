@@ -21,6 +21,11 @@ Top to bottom, so no song shows up twice:
    milestones D, tributes E, holidays F). The Memorials group carries the
    24-hour memorial delivery line, and so does every big memorial card.
 
+   Under **All**, each occasion is a short shelf: its newest four songs
+   (three on a phone), with a "Show all" button for the rest, so the page
+   stays the same length as songs are added. A category filter always shows
+   the whole category. Opening a shelf sends `jukebox_shelf_open` to GA4.
+
    Under **All**, the big cards above aren't repeated in the list. Pick a
    category and the list shows the whole category: this week's song (♪) and
    any Start here song (★) sit at the top of their group, so a family tapping
