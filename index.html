@@ -205,8 +205,8 @@
     overflow:hidden;
     display:flex;
     align-items:center;
-    min-height:min(660px, 88svh);
-    padding:168px 0 96px;
+    min-height:min(520px, 72svh);
+    padding:132px 0 60px;
     background:linear-gradient(120deg, #1a110e, #33241b 60%, #271c16);
   }
   .hero-scene{
@@ -222,16 +222,16 @@
       linear-gradient(90deg, #190f0ef0 0%, #211610bb 31%, #21171024 70%),
       linear-gradient(0deg, #271c16, transparent 30%);
   }
-  .hero h1{ max-width:820px; text-shadow:0 3px 35px #0004; }
+  .hero h1{ max-width:820px; font-size:clamp(2.6rem, 4.5vw, 4.2rem); text-shadow:0 3px 35px #0004; }
   .intro{
     font-size:1.02rem;
     max-width:560px;
     color:#efdbc2;
-    margin-top:28px;
-    line-height:1.8;
+    margin-top:22px;
+    line-height:1.7;
   }
-  .actions{ display:flex; gap:28px; align-items:center; flex-wrap:wrap; margin-top:33px; }
-  .fine{ margin-top:22px; font-size:.8rem; color:#e0bd96; }
+  .actions{ display:flex; gap:28px; align-items:center; flex-wrap:wrap; margin-top:28px; }
+  .fine{ margin-top:18px; font-size:.8rem; color:#e0bd96; }
 
   /* ---------- This week's song ---------- */
   .spotlight{
@@ -562,7 +562,17 @@
   }
 
   /* ---------- Start here ---------- */
-  .start-here{ margin-bottom:96px; }
+  .start-here{ margin-bottom:64px; }
+  /* Start here cards stay short: three lines of story, the rest on play. */
+  .start-grid .card-face .blurb{
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:3;
+    line-clamp:3;
+    overflow:hidden;
+    flex:none;
+  }
+  .start-grid .card-face .card-actions{ margin-top:auto; padding-top:18px; }
   .start-grid{
     list-style:none;
     display:grid;
@@ -860,16 +870,17 @@
     .site-nav a{ padding:6px 0; white-space:nowrap; }
     .hero{
       min-height:0;
-      padding:56px 0 60px;
+      padding:36px 0 40px;
       align-items:flex-start;
     }
-    .hero h1{ font-size:clamp(2.6rem, 10vw, 3.65rem); line-height:1.08; letter-spacing:-.025em; text-shadow:none; }
+    .hero h1{ font-size:clamp(2.2rem, 8.6vw, 3rem); line-height:1.08; letter-spacing:-.025em; text-shadow:none; }
     .hero h1 br{ display:none; }
     .hero-shade{
       background:linear-gradient(90deg, #190e0ce8, #211610a8), linear-gradient(0deg, #271c16, transparent 45%);
     }
-    .intro{ font-size:1rem; max-width:none; margin-top:24px; }
-    .actions{ gap:22px; margin-top:28px; }
+    .intro{ font-size:1rem; max-width:none; margin-top:16px; line-height:1.6; }
+    .actions{ gap:18px; margin-top:22px; }
+    .fine{ margin-top:16px; }
     .actions .button{ width:100%; min-height:52px; }
     .spotlight{ padding:56px 0 60px; }
     .listen{ padding-block:56px 66px; }
@@ -883,9 +894,24 @@
     .play{ width:36px; height:36px; bottom:8px; right:8px; }
     .play svg{ width:13px; height:15px; }
     .ribbon{ top:16px; right:8px; }
-    .start-here{ margin-bottom:64px; }
-    .start-grid{ grid-template-columns:1fr; gap:30px; }
-    .start-grid .card:nth-child(n){ margin:0; }
+    .start-here{ margin-bottom:44px; }
+    /* On a phone the three cards sit side by side in one swipeable row, with
+       the next card peeking in, instead of stacking three screens deep. */
+    .start-grid{
+      display:flex;
+      gap:14px;
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      scroll-padding-inline:var(--gutter, 20px);
+      margin-inline:calc(var(--gutter, 20px) * -1);
+      padding:4px var(--gutter, 20px) 14px;
+      scrollbar-width:none;
+      perspective:none;
+    }
+    .start-grid::-webkit-scrollbar{ display:none; }
+    .start-grid .card:nth-child(n){ margin:0; flex:0 0 80%; scroll-snap-align:start; }
+    .start-grid .card-title{ font-size:1.25rem; }
+    .start-grid .card-face .blurb{ font-size:.92rem; }
     .tracks{ grid-template-columns:1fr; }
     .track-group.is-collapsed .track:nth-child(n+4){ display:none; }
     .track-group.fits-wide .shelf-more{ display:inline-flex; }
