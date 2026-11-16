@@ -1,13 +1,22 @@
 [
   {
+    "title": "The Ones Who Stayed",
+    "occasion": "tribute",
+    "year": 2026,
+    "blurb": "A song for the ones who stayed: the porch light left on, the hand on a shoulder at dusk, and the love that kept the home place going while the world moved on.",
+    "youtubeId": "VUakKakOdMY",
+    "artwork": "https://heartstringswv.com/assets/the-ones-who-stayed-youtube.webp",
+    "featured": false,
+    "spotlight": true
+  },
+  {
     "title": "Heavy",
     "occasion": "tribute",
     "year": 2026,
     "blurb": "A Veterans Day song for the ones who came home still carrying something nobody asks about, and for the buddy who calls at 2 a.m. and just says, “I know, man.”",
     "youtubeId": "-e2ih0HQsik",
     "artwork": "https://heartstringsstudio.github.io/heartstringsstudio/assets/heavy-youtube.webp",
-    "featured": false,
-    "spotlight": true
+    "featured": false
   },
   {
     "title": "Grandpa's Footlocker",
