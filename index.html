@@ -610,6 +610,29 @@
     grid-template-columns:repeat(2, 1fr);
     column-gap:40px;
   }
+  /* Shelves: under "All", each occasion shows its newest few rows and keeps
+     the rest behind a "Show all" button. Four rows fill two lines on a wide
+     screen; a phone gets three. */
+  .track-group.is-collapsed .track:nth-child(n+5){ display:none; }
+  .shelf-more{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-top:16px;
+    padding:10px 20px;
+    border:1px solid #ac805655;
+    border-radius:3px;
+    background:transparent;
+    color:var(--band-ink);
+    font:600 .86rem/1 var(--sans);
+    letter-spacing:.02em;
+    cursor:pointer;
+    transition:background .25s, border-color .25s;
+  }
+  .shelf-more:hover{ background:var(--card); border-color:var(--band-accent); }
+  .shelf-more svg{ transition:transform .25s; }
+  .shelf-more[aria-expanded="true"] svg{ transform:rotate(180deg); }
+  .track-group.fits-wide .shelf-more{ display:none; }
   .track{
     position:relative;
     display:grid;
@@ -864,6 +887,8 @@
     .start-grid{ grid-template-columns:1fr; gap:30px; }
     .start-grid .card:nth-child(n){ margin:0; }
     .tracks{ grid-template-columns:1fr; }
+    .track-group.is-collapsed .track:nth-child(n+4){ display:none; }
+    .track-group.fits-wide .shelf-more{ display:inline-flex; }
     .track{ padding:12px 4px; }
     .track-btn{ font-size:1.08rem; }
     .dock{
@@ -1106,6 +1131,11 @@
   var rowKeys = new Map();
   var codes = new Map();
   var activeFilter = "all";
+  // Shelves: under "All" each occasion shows its newest rows (4 on a wide
+  // screen, 3 on a phone — the CSS decides) and tucks the rest behind a
+  // "Show all" button. A category filter always shows the whole category.
+  var SHELF_WIDE = 4, SHELF_NARROW = 3;
+  var openShelves = {};  // occasion key -> true once the visitor opens it
   // { kind:"card", card:<el>, song } or { kind:"dock", song } — one song at a time
   var current = null;
 
@@ -1317,12 +1347,51 @@
 
         ol = document.createElement("ol");
         ol.className = "tracks";
+        ol.id = "tracks-" + lastOcc;
         group.appendChild(ol);
+        if(activeFilter === "all" && inGroup > SHELF_NARROW){
+          addShelfToggle(group, ol, lastOcc, inGroup);
+        }
         tracklist.appendChild(group);
       }
       ol.appendChild(buildTrack(song));
     });
     markPlayingTrack();
+  }
+
+  function addShelfToggle(group, ol, occ, total){
+    // A song playing from further down the shelf keeps its shelf open.
+    if(current && current.kind === "dock" && current.song.occasion === occ) openShelves[occ] = true;
+    if(total <= SHELF_WIDE) group.classList.add("fits-wide");
+
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "shelf-more";
+    btn.setAttribute("aria-controls", ol.id);
+    var label = document.createElement("span");
+    btn.appendChild(label);
+    btn.insertAdjacentHTML("beforeend", '<svg width="12" height="8" viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 1.5l5 5 5-5"/></svg>');
+
+    function paint(){
+      var open = openShelves[occ] === true;
+      group.classList.toggle("is-collapsed", !open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      label.textContent = open ? "Show fewer" : "Show all " + total + " " + occasionLabel(occ).toLowerCase();
+    }
+    btn.addEventListener("click", function(){
+      openShelves[occ] = !openShelves[occ];
+      paint();
+      if(openShelves[occ]){
+        if(typeof gtag === "function"){
+          gtag("event", "jukebox_shelf_open", { event_category: "engagement", occasion: occ });
+        }
+      } else if(group.getBoundingClientRect().top < 0){
+        // Closing a long shelf from the bottom: bring its heading back into view.
+        group.scrollIntoView({ block: "start", behavior: reduceMotion ? "auto" : "smooth" });
+      }
+    });
+    paint();
+    group.appendChild(btn);
   }
 
   function buildTrack(song){
