@@ -1,13 +1,22 @@
 [
   {
+    "title": "The Way You Made It",
+    "occasion": "holiday",
+    "year": 2026,
+    "blurb": "A Thanksgiving song for everyone: the stained recipe card, the old mixing bowl, the apron on its hook, and the dish we keep making the way you made it.",
+    "youtubeId": "JaRIMOaUTcE",
+    "artwork": "https://heartstringswv.com/assets/the-way-you-made-it-youtube.webp",
+    "featured": false,
+    "spotlight": true
+  },
+  {
     "title": "The Ones Who Stayed",
     "occasion": "tribute",
     "year": 2026,
     "blurb": "A song for the ones who stayed: the porch light left on, the hand on a shoulder at dusk, and the love that kept the home place going while the world moved on.",
     "youtubeId": "VUakKakOdMY",
     "artwork": "https://heartstringswv.com/assets/the-ones-who-stayed-youtube.webp",
-    "featured": false,
-    "spotlight": true
+    "featured": false
   },
   {
     "title": "Heavy",
